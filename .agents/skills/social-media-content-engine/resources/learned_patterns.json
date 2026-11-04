@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-11-05T01:25:00+05:30",
+  "approvedHooks": [
+    "Do you know this ?",
+    "Don't do this / Don't use this in that way ?",
+    "How does it work ?",
+    "What is this ?"
+  ],
+  "brandGuidelines": {
+    "truthBound": true,
+    "noAssumptions": true,
+    "noFakeMedicalClaims": true,
+    "creatorRecommendationTone": "Personal, credible, science-backed, warm advisor",
+    "callToAction": "Need more clarification ? connect me ->",
+    "websiteDisplay": "N-Square Store (Direct authentic Amway fulfillment)"
+  },
+  "visualPreferences": {
+    "primaryRatio": "4:5 (1080x1350 Instagram carousel standard)",
+    "videoSafeRatio": "9:16 (1080x1920 with centered 4:5 visual focal zone)",
+    "style": "Hyper-realistic botanical macro photography, clean clinical aesthetics, natural soft studio lighting, high negative space for text",
+    "watermarkPolicy": "Strictly no watermarks, clean commercial-safe outputs"
+  },
+  "languagePreferences": {
+    "carouselPost": "English (punchy, clean, readable)",
+    "videoVoiceover": [
+      "English (clear, authoritative yet conversational)",
+      "Telugu (natural conversational / వాడుక భాష, engaging, regional trust-building)"
+    ]
+  },
+  "userLearnedRules": []
+}
