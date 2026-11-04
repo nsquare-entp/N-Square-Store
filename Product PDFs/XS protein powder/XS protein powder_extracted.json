@@ -1,0 +1,78 @@
+{
+    "name": "Amway XS Whey Protein Powder Formula 2 Chocolate",
+    "sku": "329954ID",
+    "price_mrp": "5561.00",
+    "price_abo": "5195.40",
+    "pv": "46.12",
+    "product_details": "XS™ Whey Protein is a multi-purpose protein formulation utilizing a unique blend of 6 different protein sources. This advanced formula includes fast-absorbing Whey Hydrolysate and Whey Isolate for immediate muscle nourishment, along with slower-digesting Calcium Caseinate and Micellar Casein, ensuring a sustained and prolonged release of amino acids into the bloodstream. It is designed for maximum muscle synthesis, recovery, and overall strength enhancement, making it an essential supplement for highly active individuals, athletes, and anyone looking to build lean muscle mass.",
+    "features": "• 23g of high-quality, ultra-filtered protein per serving (approx. 33g).\n• A strategic blend of 6 proteins: Whey Protein Concentrate, Whey Protein Isolate, Hydrolyzed Whey Protein, Milk Protein Isolate, Calcium Caseinate, and Sodium Caseinate.\n• 10g of naturally occurring Essential Amino Acids (EAAs).\n• 5g of Branched-Chain Amino Acids (BCAAs) to prevent muscle breakdown.\n• Fortified with Prebiotics to support gut health and maximize protein absorption.\n• Enriched with 80mg of Calcium to support bone health and muscle contraction.\n• Absolutely no added sugars, no artificial colors, and gluten-free formulation.",
+    "benefits": "• Rapid & Sustained Recovery: Fast and slow-digesting proteins provide both immediate post-workout recovery and sustained amino acid release for up to 8 hours.\n• Lean Muscle Growth: The high concentration of BCAAs and EAAs stimulates protein synthesis, helping you build lean, dense muscle mass.\n• Superior Digestion & Absorption: The added prebiotics ensure that the protein is easily digested without causing bloating, making it highly bioavailable.\n• Bone Strength: The calcium fortifies bone density, preventing stress fractures during intense physical training.\n• Delicious Taste: Formulated with premium cocoa for a rich, satisfying chocolate flavor that mixes instantly without clumping.",
+    "how_to_use": "Add 1 level scoop (approximately 33g) of XS™ Whey Protein Powder to 200 ml of cold water, milk, or your favorite beverage in a shaker cup. Shake vigorously for 30 seconds until completely dissolved. For best results, consume immediately after your workout to maximize the anabolic window for muscle recovery. It can also be consumed between meals to maintain a positive nitrogen balance throughout the day. Do not exceed the recommended daily serving.",
+    "ingredients": "Protein Blend (Whey Protein Concentrate, Milk Protein Isolate, Calcium Caseinate, Whey Protein Isolate, Sodium Caseinate, Hydrolyzed Whey Protein), Cocoa Powder (Processed with Alkali), Prebiotic Inulin, Natural and Artificial Flavors, Emulsifier (Soy Lecithin), Salt, Sweetener (Sucralose), Stabilizer (Xanthan Gum).",
+    "nutritional_info": {
+        "serving_size": "1 Provided scoop (30 g approx.)",
+        "servings_per_container": "33 servings",
+        "headers": [
+            "Nutrient",
+            "Per Serving",
+            "% RDA (Adult man-heavy work)"
+        ],
+        "rows": [
+            [
+                "Energy",
+                "108 kcal",
+                "5.4"
+            ],
+            [
+                "Protein",
+                "23 g",
+                "42.59"
+            ],
+            [
+                "Fat",
+                "0.7 g",
+                "1.04"
+            ],
+            [
+                "Saturated Fat",
+                "<0.7 g/100g",
+                "3.18"
+            ],
+            [
+                "Trans Fat",
+                "<0.03 g/100 g",
+                "1.5"
+            ],
+            [
+                "Carbohydrate",
+                "4 g",
+                "-"
+            ],
+            [
+                "Dietary Fiber",
+                "0.7 g",
+                "1.4"
+            ],
+            [
+                "Total Sugars",
+                "0.38 g",
+                "-"
+            ],
+            [
+                "Added Sugars",
+                "0.0 g",
+                "0"
+            ],
+            [
+                "Sodium",
+                "95 mg",
+                "4.75"
+            ],
+            [
+                "Calcium",
+                "80 mg",
+                "8"
+            ]
+        ]
+    }
+}

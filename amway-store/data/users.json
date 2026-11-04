@@ -1,0 +1,260 @@
+[
+  {
+    "id": "USR-MVQ64JPL-8ATP",
+    "mobile": "9876500003",
+    "email": "amit.suspended@example.com",
+    "name": "Amit Suspended",
+    "password": "Amit@Pass789",
+    "address": {},
+    "cart": [],
+    "status": "ACTIVE",
+    "notes": "KYC documents received and verified. Account activated.",
+    "createdAt": "2026-10-27T04:11:12.969Z",
+    "updatedAt": "2026-10-31T14:04:43.724Z",
+    "lastLoginAt": "2026-10-31T13:23:58.462Z"
+  },
+  {
+    "id": "USR-MVQ64JP6-V27X",
+    "mobile": "+91 98765-00002",
+    "email": "PRIYA.SHARMA@EXAMPLE.COM",
+    "name": "Priya Sharma",
+    "password": "Priya@NewPass2026",
+    "address": {
+      "street": "22 Indiranagar 100ft Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560038"
+    },
+    "cart": [
+      {
+        "id": "123785ID",
+        "sku": "123785ID",
+        "name": "Artistry Skin Nutrition™ Vitamin C+HA3 Daily Serum",
+        "price": 4945,
+        "mrp": 5495,
+        "qty": 1,
+        "variant": "12 ml",
+        "image": "https://media.amway.in/sys-master/images/h02/hbb/9380629708830/EIA.w800.h800.123785ID_1.png"
+      },
+      {
+        "id": "285431ID",
+        "sku": "285431ID",
+        "name": "XS™ Energy Drink - Citrus Blast (Can)",
+        "price": 110,
+        "mrp": 125,
+        "qty": 3,
+        "variant": "250 ml",
+        "image": "https://media.amway.in/sys-master/images/h04/h82/9163618484254/EIA.w800.h800.285431ID_1.png"
+      }
+    ],
+    "status": "ACTIVE",
+    "notes": "Inquiry LEAD-202. Focuses on skincare and nutrition.",
+    "createdAt": "2026-10-27T04:11:12.954Z",
+    "updatedAt": "2026-10-27T04:11:13.264Z",
+    "lastLoginAt": "2026-10-27T04:11:13.264Z"
+  },
+  {
+    "id": "USR-MVQ64JOU-JCYH",
+    "mobile": "9876500001",
+    "email": "rohan.gupta@example.com",
+    "name": "Rohan Gupta",
+    "password": "Rohan@Pass123",
+    "address": {
+      "street": "Plot 77, Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400050"
+    },
+    "cart": [
+      {
+        "id": "329861ID",
+        "sku": "329861ID",
+        "name": "NUTRILITE® All Plant Protein Powder 1kg",
+        "price": 3591,
+        "mrp": 4140,
+        "qty": 2,
+        "variant": "1 kg",
+        "image": "https://media.amway.in/sys-master/images/h5d/hf4/9263179530270/EIA.w800.h800.329861ID_1.png"
+      },
+      {
+        "id": "296551ID",
+        "sku": "296551ID",
+        "name": "NUTRILITE® Daily Plus (120 Tablets)",
+        "price": 2043,
+        "mrp": 2349,
+        "qty": 1,
+        "variant": "120 Tablets",
+        "image": "https://media.amway.in/sys-master/images/h4a/h5d/9373752131614/EIA.w800.h800.296551ID_1.png"
+      }
+    ],
+    "status": "ACTIVE",
+    "notes": "Temporarily suspended per administrative review.",
+    "createdAt": "2026-10-27T04:11:12.942Z",
+    "updatedAt": "2026-10-27T04:11:13.304Z",
+    "lastLoginAt": "2026-10-27T04:11:13.028Z"
+  },
+  {
+    "id": "USR-MVQ502DT-7VIB",
+    "mobile": "9876500003",
+    "email": "amit.suspended@example.com",
+    "name": "Amit Suspended",
+    "password": "Amit@Pass789",
+    "address": {},
+    "cart": [],
+    "status": "ACTIVE",
+    "notes": "KYC documents received and verified. Account activated.",
+    "createdAt": "2026-10-27T03:39:44.273Z",
+    "updatedAt": "2026-10-27T03:39:45.466Z",
+    "lastLoginAt": "2026-10-27T03:39:45.466Z"
+  },
+  {
+    "id": "USR-MVQ502DK-312Z",
+    "mobile": "+91 98765-00002",
+    "email": "PRIYA.SHARMA@EXAMPLE.COM",
+    "name": "Priya Sharma",
+    "password": "Priya@NewPass2026",
+    "address": {
+      "street": "22 Indiranagar 100ft Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560038"
+    },
+    "cart": [
+      {
+        "id": "123785ID",
+        "sku": "123785ID",
+        "name": "Artistry Skin Nutrition™ Vitamin C+HA3 Daily Serum",
+        "price": 4945,
+        "mrp": 5495,
+        "qty": 1,
+        "variant": "12 ml",
+        "image": "https://media.amway.in/sys-master/images/h02/hbb/9380629708830/EIA.w800.h800.123785ID_1.png"
+      },
+      {
+        "id": "285431ID",
+        "sku": "285431ID",
+        "name": "XS™ Energy Drink - Citrus Blast (Can)",
+        "price": 110,
+        "mrp": 125,
+        "qty": 3,
+        "variant": "250 ml",
+        "image": "https://media.amway.in/sys-master/images/h04/h82/9163618484254/EIA.w800.h800.285431ID_1.png"
+      }
+    ],
+    "status": "ACTIVE",
+    "notes": "Inquiry LEAD-202. Focuses on skincare and nutrition.",
+    "createdAt": "2026-10-27T03:39:44.264Z",
+    "updatedAt": "2026-10-27T03:39:45.449Z",
+    "lastLoginAt": "2026-10-27T03:39:45.449Z"
+  },
+  {
+    "id": "USR-MVQ502DA-O4TZ",
+    "mobile": "9876500001",
+    "email": "rohan.gupta@example.com",
+    "name": "Rohan Gupta",
+    "password": "Rohan@Pass123",
+    "address": {
+      "street": "Plot 77, Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400050"
+    },
+    "cart": [
+      {
+        "id": "329861ID",
+        "sku": "329861ID",
+        "name": "NUTRILITE® All Plant Protein Powder 1kg",
+        "price": 3591,
+        "mrp": 4140,
+        "qty": 2,
+        "variant": "1 kg",
+        "image": "https://media.amway.in/sys-master/images/h5d/hf4/9263179530270/EIA.w800.h800.329861ID_1.png"
+      },
+      {
+        "id": "296551ID",
+        "sku": "296551ID",
+        "name": "NUTRILITE® Daily Plus (120 Tablets)",
+        "price": 2043,
+        "mrp": 2349,
+        "qty": 1,
+        "variant": "120 Tablets",
+        "image": "https://media.amway.in/sys-master/images/h4a/h5d/9373752131614/EIA.w800.h800.296551ID_1.png"
+      }
+    ],
+    "status": "ACTIVE",
+    "notes": "Temporarily suspended per administrative review.",
+    "createdAt": "2026-10-27T03:39:44.254Z",
+    "updatedAt": "2026-10-27T03:39:45.489Z",
+    "lastLoginAt": "2026-10-27T03:39:44.370Z"
+  },
+  {
+    "id": "USR-MVP4Z5UB",
+    "mobile": "9811223344",
+    "email": "anjali@example.com",
+    "name": "Anjali Verma",
+    "password": "Anjali@Secure456",
+    "address": {
+      "street": "12 Golf Links",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110003"
+    },
+    "inquiryId": "lead-test-01",
+    "cart": [],
+    "status": "ACTIVE",
+    "notes": "Verified via WhatsApp inquiry. Interested in Nutrilite Salmon Omega-3.",
+    "createdAt": "2026-10-26T10:51:15.924Z",
+    "updatedAt": "2026-10-26T10:51:15.924Z"
+  },
+  {
+    "id": "USR-1001",
+    "mobile": "9820192831",
+    "email": "vikram.sharma@example.com",
+    "name": "Vikram Sharma",
+    "password": "Nsquare@123",
+    "address": {
+      "street": "Flat 402, Green Meadows, Indiranagar",
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "pincode": "560038"
+    },
+    "inquiryId": "LEAD-101",
+    "cart": [
+      {
+        "id": "329158ID",
+        "sku": "329158ID",
+        "name": "Nutrilite Weight Management Shake Mix (Coffee Flavor)",
+        "price": 1579.2,
+        "mrp": 1691,
+        "image": "https://media.amway.in/sys-master/images/hf4/h2f/9263940796446/EIA.w800.h800.329158ID_1.png",
+        "variant": "450g",
+        "qty": 1
+      },
+      {
+        "id": "329954ID",
+        "sku": "329954ID",
+        "name": "XS™ Whey Protein Powder Formula 2 Chocolate",
+        "price": 5195.4,
+        "mrp": 5561,
+        "image": "https://media.amway.in/sys-master/images/h8c/h34/9268937621534/EIA.w800.h800.329954ID_1.png",
+        "variant": "1kg",
+        "qty": 1
+      },
+      {
+        "id": "312356ID",
+        "sku": "312356ID",
+        "name": "Nutrilite Weight Management Shake Mix (Chocolate Flavor)",
+        "price": 1579.2,
+        "mrp": 1691,
+        "image": "https://media.amway.in/sys-master/images/h74/h95/9263941615646/EIA.w800.h800.312356ID_1.png",
+        "variant": "450g",
+        "qty": 1
+      }
+    ],
+    "status": "ACTIVE",
+    "notes": "Verified consultant customer. Consumes Nutrilite daily for fitness & joint recovery.",
+    "createdAt": "2026-10-20T10:30:00.000Z",
+    "updatedAt": "2026-10-31T17:48:26.580Z",
+    "lastLoginAt": "2026-10-31T14:14:18.181Z"
+  }
+]

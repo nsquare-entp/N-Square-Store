@@ -1,0 +1,37 @@
+{
+  "name": "amway-store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "mcp": "tsx src/mcp/cli.ts",
+    "test:mcp": "tsx src/mcp/test-mcp.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@supabase/supabase-js": "^2.117.2",
+    "@tailwindcss/postcss": "^4.3.3",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.6.0",
+    "lucide-react": "^1.61.0",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tailwindcss": "^4.3.3",
+    "zod": "^4.6.7",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

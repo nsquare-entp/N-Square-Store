@@ -1,0 +1,76 @@
+{
+  "scenario": "A 23 years male, very lean and less weight. He needs muscle/body growth.",
+  "amway_product": {
+    "name": "Amway XS Whey Protein Formula 2 Chocolate",
+    "price": "₹5,195.40 (ABO Price)",
+    "description": "A multi-stage protein utilizing a blend of 6 different protein sources, including fast-absorbing Whey Hydrolysate/Isolate and slower-digesting Caseinates, ensuring sustained muscle nourishment with prebiotic digestive comfort.",
+    "scientific_truths": "Contains 23g of intact protein per 30g serving with 5g BCAAs, 80mg calcium, and prebiotics. Matches the clinical leucine threshold to trigger maximal muscle protein synthesis without metabolic renal waste.",
+    "medical_standards_validation": {
+      "standard_authority": "International Society of Sports Nutrition (ISSN) & ICMR-NIN 2020 RDA",
+      "standard_url": "https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8",
+      "verification_table": [
+        {
+          "ingredient": "Intact Protein (6-Blend)",
+          "product_measurement": "23.0 g / 30g scoop",
+          "standard_measurement": "20.0 – 25.0 g / serving (ISSN Benchmark)",
+          "fit_assessment": "Matches the exact leucine threshold (~2.5g) to trigger maximal Muscle Protein Synthesis (MPS) in young adults.",
+          "rating": "Good"
+        },
+        {
+          "ingredient": "Branched Chain Amino Acids (BCAAs)",
+          "product_measurement": "5.0 g per serving",
+          "standard_measurement": "3.0 – 5.0 g per post-workout dose (ISSN Guidelines)",
+          "fit_assessment": "Clinically validated 2:1:1 ratio necessary to suppress exercise-induced muscle protein breakdown.",
+          "rating": "Good"
+        },
+        {
+          "ingredient": "Prebiotic Fiber (Inulin)",
+          "product_measurement": "0.7 g per serving",
+          "standard_measurement": "0.5 – 2.0 g per dose (EFSA & NIH Digestibility Benchmark)",
+          "fit_assessment": "Mitigates gastrointestinal distress and bloating commonly triggered by concentrated dairy proteins.",
+          "rating": "Good"
+        },
+        {
+          "ingredient": "Elemental Calcium",
+          "product_measurement": "80 mg (8% ICMR RDA)",
+          "standard_measurement": "1,000 mg/day (ICMR-NIN 2020 RDA for Adult Men)",
+          "fit_assessment": "Supplies safe baseline for neuromuscular contraction without competing with dietary iron absorption.",
+          "rating": "Moderate"
+        },
+        {
+          "ingredient": "Added Sugar",
+          "product_measurement": "0.0 g (Zero added sucrose)",
+          "standard_measurement": "< 25.0 g/day or < 5% total energy (WHO / ICMR Standards)",
+          "fit_assessment": "Zero glycemic spike; preserves insulin sensitivity and avoids empty calories.",
+          "rating": "Good"
+        }
+      ]
+    },
+    "who_may_use": [
+      "Lean individuals (ectomorphs) seeking hypertrophy & muscle mass accretion",
+      "Resistance-trained athletes requiring targeted post-workout recovery",
+      "Adults seeking sustained daytime and nocturnal amino acid delivery",
+      "Individuals prone to GI bloating with standard single-source whey"
+    ],
+    "who_should_not_use": [
+      "Individuals with severe dairy / milk protein anaphylaxis or allergy",
+      "Patients with Chronic Kidney Disease (CKD stage 3+) without nephrologist consult",
+      "Infants and children under 12 years of age",
+      "Individuals with galactosemia"
+    ],
+    "usp": "Unique blend of 6 protein sources for sustained release + Prebiotics for zero bloating.",
+    "rating": "Good",
+    "image_url": "https://placehold.co/400x400/2a2a2a/ffffff?text=Amway+XS+Whey"
+  },
+  "worthiness": "Validated against International Society of Sports Nutrition (ISSN) and ICMR-NIN benchmarks, Amway XS Whey fits medical criteria for optimal muscle protein synthesis (23g per bolus) while resolving typical protein bloating via prebiotics.",
+  "medical_evidence": [
+    {
+      "title": "ISSN Position Stand: Protein and Exercise",
+      "url": "https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8"
+    },
+    {
+      "title": "ICMR-NIN 2020 Dietary Guidelines for Indians",
+      "url": "https://www.icmr.gov.in/pdf/guidelines/Nutrient_Requirements_and_Recommended_Dietary_Allowances_for_Indians.pdf"
+    }
+  ]
+}

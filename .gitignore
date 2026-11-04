@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Next.js Build Outputs
+.next/
+*/.next/
+out/
+*/out/
+
+# Environment and sensitive files
+.env*
+*/.env*
+Pass.txt
+*.pem
+*.key
+
+# Temporary files & profiles
+chrome_temp_profile/
+*.tmp
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,373 @@
+{
+  "lastBulkSync": "2026-11-01T17:40:50.836Z",
+  "items": {
+    "329887ID": {
+      "sku": "329887ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:37.623Z"
+    },
+    "329861ID": {
+      "sku": "329861ID",
+      "inStock": true,
+      "stockLevel": 8664,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:37.612Z"
+    },
+    "329954ID": {
+      "sku": "329954ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:37.616Z"
+    },
+    "312356ID": {
+      "sku": "312356ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:38.644Z"
+    },
+    "329159ID": {
+      "sku": "329159ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:38.641Z"
+    },
+    "319685ID": {
+      "sku": "319685ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:38.627Z"
+    },
+    "329158ID": {
+      "sku": "329158ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:42:43.632Z"
+    },
+    "329869ID": {
+      "sku": "329869ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:39.277Z"
+    },
+    "329862ID": {
+      "sku": "329862ID",
+      "inStock": true,
+      "stockLevel": 1477,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:39.503Z"
+    },
+    "329875ID": {
+      "sku": "329875ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.149Z"
+    },
+    "313504ID": {
+      "sku": "313504ID",
+      "inStock": true,
+      "stockLevel": 6928,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.146Z"
+    },
+    "329879ID": {
+      "sku": "329879ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.151Z"
+    },
+    "329864ID": {
+      "sku": "329864ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.765Z"
+    },
+    "329865ID": {
+      "sku": "329865ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.772Z"
+    },
+    "325353ID": {
+      "sku": "325353ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:40.769Z"
+    },
+    "329868ID": {
+      "sku": "329868ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:41.554Z"
+    },
+    "100066ID": {
+      "sku": "100066ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:41.559Z"
+    },
+    "329886ID": {
+      "sku": "329886ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:41.565Z"
+    },
+    "342576ID": {
+      "sku": "342576ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.177Z"
+    },
+    "342577ID": {
+      "sku": "342577ID",
+      "inStock": true,
+      "stockLevel": 59,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.220Z"
+    },
+    "319686ID": {
+      "sku": "319686ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.213Z"
+    },
+    "329860ID": {
+      "sku": "329860ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.840Z"
+    },
+    "325354ID": {
+      "sku": "325354ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.991Z"
+    },
+    "329871ID": {
+      "sku": "329871ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:42.845Z"
+    },
+    "342580ID": {
+      "sku": "342580ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:43.844Z"
+    },
+    "329889ID": {
+      "sku": "329889ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:43.843Z"
+    },
+    "342579ID": {
+      "sku": "342579ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:43.840Z"
+    },
+    "313506ID": {
+      "sku": "313506ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:45.637Z"
+    },
+    "329883ID": {
+      "sku": "329883ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:45.664Z"
+    },
+    "328006ID": {
+      "sku": "328006ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:46.275Z"
+    },
+    "313495ID": {
+      "sku": "313495ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:46.930Z"
+    },
+    "313496ID": {
+      "sku": "313496ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:46.928Z"
+    },
+    "342570ID": {
+      "sku": "342570ID",
+      "inStock": true,
+      "stockLevel": null,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:46.933Z"
+    },
+    "342572ID": {
+      "sku": "342572ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:48.830Z"
+    },
+    "342567ID": {
+      "sku": "342567ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:48.891Z"
+    },
+    "342568ID": {
+      "sku": "342568ID",
+      "inStock": true,
+      "stockLevel": null,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:48.178Z"
+    },
+    "329870ID": {
+      "sku": "329870ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:49.601Z"
+    },
+    "342574ID": {
+      "sku": "342574ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:49.595Z"
+    },
+    "342575ID": {
+      "sku": "342575ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:49.605Z"
+    },
+    "329872ID": {
+      "sku": "329872ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:50.213Z"
+    },
+    "342578ID": {
+      "sku": "342578ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:50.214Z"
+    },
+    "329881ID": {
+      "sku": "329881ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:50.213Z"
+    },
+    "342573ID": {
+      "sku": "342573ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:50.834Z"
+    },
+    "329890ID": {
+      "sku": "329890ID",
+      "inStock": true,
+      "stockLevel": 60,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T17:40:50.835Z"
+    },
+    "329867ID": {
+      "sku": "329867ID",
+      "inStock": true,
+      "stockLevel": 4156,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T10:07:37.945Z"
+    },
+    "329878ID": {
+      "sku": "329878ID",
+      "inStock": true,
+      "stockLevel": 2900,
+      "status": "IN_STOCK",
+      "label": "In Stock",
+      "lastUpdated": "2026-11-01T10:07:37.151Z"
+    }
+  }
+}

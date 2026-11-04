@@ -1,0 +1,15 @@
+{
+  "name": "nsquare-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "N-Square Amway Store Workspace Root",
+  "scripts": {
+    "dev": "npm --prefix amway-store run dev",
+    "build": "npm --prefix amway-store run build",
+    "start": "npm --prefix amway-store run start",
+    "lint": "npm --prefix amway-store run lint",
+    "mcp": "npm --prefix amway-store run mcp",
+    "test:mcp": "npm --prefix amway-store run test:mcp"
+  }
+}
+

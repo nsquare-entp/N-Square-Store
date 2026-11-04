@@ -1,0 +1,608 @@
+{
+  "category_id": "category5",
+  "category_name": "Traditional Herbal & Botanical Wellness Products",
+  "category_description": "Pure, certified organic, DNA-fingerprinted Ayurvedic botanical extracts standardized to therapeutic bio-active markers for stress adaptation, neuroprotection, respiratory immunity, glucose metabolism, digestive cleansing, and vitality.",
+  "total_products": 8,
+  "products": [
+    {
+      "id": "342574ID",
+      "sku": "342574ID",
+      "name": "NUTRILITE® Ashwagandha",
+      "pack_sizes": [
+        "60 Tablets (342574ID)"
+      ],
+      "price": "MRP: ₹651 | ABO Price: ₹585.90 (60 Tablets)",
+      "image_url": "/images/products/342574ID.png",
+      "usp": "Guaranteed DNA-fingerprinted Withania somnifera root extract standardized to 2.5mg active Withanolides per tablet, proven to lower elevated cortisol and enhance muscular recovery.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A pharmaceutical-grade adaptogenic botanical tablet providing pure *Withania somnifera* root extract, verified by DNA fingerprinting to guarantee authentic botanical species identity, standardized to deliver 2.5mg of active Withanolides per tablet, free from leaf adulteration and heavy metal contaminants.",
+        "why_it_is_needed": "Chronic modern psychological and physical stress drives unremitting activation of the Hypothalamic-Pituitary-Adrenal (HPA) axis, causing elevated baseline cortisol. Hypercortisolemia leads to visceral fat accumulation, muscle protein catabolism, poor sleep architecture, and adrenal exhaustion. Cheap raw bazaar ashwagandha churna contains unpredictable active compounds and is frequently adulterated with toxic aerial leaves containing withaferin-A. Nutrilite Ashwagandha solves this: standardized Withanolides act directly on the central nervous system to mimic GABAergic neurotransmission, downregulating HPA-axis hyperactivity, lowering serum cortisol by up to 28%, improving deep slow-wave sleep (SWS), and accelerating muscular recovery without daytime drowsiness."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & PubMed Clinical Trial PMID: 26609282",
+        "standard_url": "https://pubmed.ncbi.nlm.nih.gov/26609282/",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/Ashwagandha-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Certified Organic Ashwagandha Root Extract (Withania somnifera)",
+            "product_measurement": "500.0 mg extract per tablet",
+            "standard_measurement": "300.0 – 600.0 mg (Ayurvedic Pharmacopoeia of India API & Clinical Standard)",
+            "fit_assessment": "Sourced from certified organic farms, utilizing DNA-fingerprinted Withania somnifera roots.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Withanolides Content",
+            "product_measurement": "25.0 mg (Standardized to 5.0% HPLC)",
+            "standard_measurement": "Min 1.5% - 2.5% Withanolides (API Monograph Standard)",
+            "fit_assessment": "Surpasses API standards by over 200%; downregulates hypothalamic-pituitary-adrenal (HPA) axis, reducing serum cortisol and anxiety scores.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Withaferin-A & Alkaloids Spectrum",
+            "product_measurement": "Full natural root phytochemical matrix",
+            "standard_measurement": "Whole root extract ratio benchmark",
+            "fit_assessment": "Maintains natural bio-enhancer alkaloids (withanine, somniferine) for optimal cellular uptake.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Whole Herb Equivalence",
+            "product_measurement": "Equivalent to 3.0 g dry organic Ashwagandha root",
+            "standard_measurement": "3.0 – 6.0 g dry root powder (API Rasayana Standard)",
+            "fit_assessment": "Delivers the full clinical therapeutic potency of traditional Ayurvedic Kwatha in a single pure tablet.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "DNA Fingerprinting & Heavy Metal Purity",
+            "product_measurement": "100% authentic botanical identity; Lead < 10 ppm, Cadmium < 0.3 ppm",
+            "standard_measurement": "API & AYUSH Heavy Metal Safety Limits",
+            "fit_assessment": "100% compliant with strict medical safety regulations; devoid of adulterant species or toxic heavy metals.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Working professionals experiencing chronic work-related stress, anxiety, or adrenal fatigue",
+          "Athletes and fitness enthusiasts seeking faster muscular recovery and cortisol reduction",
+          "Individuals suffering from poor sleep quality or nocturnal restlessness"
+        ],
+        "who_should_not_use": [
+          "Pregnant or breastfeeding women (potential uterine stimulant risk)",
+          "Individuals with hyperthyroidism (Ashwagandha can naturally stimulate T3/T4 synthesis)",
+          "Patients on immunosuppressive medications or active autoimmune conditions (SLE, Rheumatoid Arthritis)"
+        ]
+      },
+      "image": "/images/products/342574ID.png",
+      "images": [
+        "/images/products/342574ID.png",
+        "/images/products/342574ID_1.png",
+        "/images/products/342574ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/hcd/hd1/9260050546718/EIA.w800.h800.342574ID_FRONT.png"
+    },
+    {
+      "id": "329870ID",
+      "sku": "329870ID",
+      "name": "NUTRILITE® Tulsi",
+      "pack_sizes": [
+        "60 Tablets (329870ID)"
+      ],
+      "price": "MRP: ₹651 | ABO Price: ₹585.90 (60 Tablets)",
+      "image_url": "/images/products/329870ID.png",
+      "usp": "DNA-fingerprinted Holy Basil (Ocimum sanctum) extract standardized to 2% active Ursolic Acid, delivering the concentrated antioxidant and respiratory defense benefits of over 100 organic dried Tulsi leaves per tablet.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A standardized herbal tablet delivering pure Holy Basil extract (*Ocimum sanctum*), verified through DNA fingerprinting to ensure the true *Krishna Tulsi* phenotype, standardized to deliver 2% active Ursolic Acid, eugenol, and rosmarinic acid. One tablet delivers the bioactive potency of over 100 dried organic Tulsi leaves.",
+        "why_it_is_needed": "Urban air pollution, seasonal allergens, and airborne pathogens constantly trigger bronchial inflammation, mucus hypersecretion, and coughing fits. Drinking casual home tulsi tea provides highly diluted, unstandardized actives. Nutrilite Tulsi provides clinical-grade respiratory defense: Ursolic Acid acts as a natural bronchodilator and anti-allergic compound, inhibiting 5-lipoxygenase and stabilizing mast cell degranulation. Eugenol exerts broad-spectrum antimicrobial and anti-fungal properties against common respiratory bacteria, while rosmarinic acid clears free radicals from pulmonary alveolar tissue to ease breathing."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & WHO Monographs on Selected Medicinal Plants",
+        "standard_url": "https://apps.who.int/medicinedocs/en/d/Js2200e/27.html",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Certified Organic Tulsi Leaf Extract (Ocimum sanctum)",
+            "product_measurement": "500.0 mg extract per tablet",
+            "standard_measurement": "300.0 – 500.0 mg (Ayurvedic Pharmacopoeia of India API Standard)",
+            "fit_assessment": "Extracted exclusively from organic Holy Basil leaves, preserving volatile adaptogenic phytochemicals.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Ursolic Acid Content",
+            "product_measurement": "10.0 mg (Standardized to 2.0% HPLC)",
+            "standard_measurement": "Min 1.0% - 1.5% Ursolic Acid (API Monograph Standard)",
+            "fit_assessment": "Exceeds API standards; acts as a potent anti-inflammatory, inhibiting COX-2 and protecting upper respiratory bronchial passages.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Rosmarinic Acid, Eugenol & Tannins",
+            "product_measurement": "Approx. 25.0 mg active polyphenols",
+            "standard_measurement": "Botanical antioxidant benchmark",
+            "fit_assessment": "Scavenges pulmonary free radicals and enhances natural macrophage phagocytosis.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Whole Herb Equivalence",
+            "product_measurement": "Equivalent to over 100 organic holy basil leaves",
+            "standard_measurement": "Traditional Ayurvedic consumption benchmark",
+            "fit_assessment": "Concentrates therapeutic adaptogenic value equivalent to consuming 100 fresh leaves daily.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "DNA Authentication & Purity",
+            "product_measurement": "100% verified Ocimum sanctum genome; zero synthetic pesticides",
+            "standard_measurement": "API & AYUSH Regulations",
+            "fit_assessment": "Safe for long-term daily respiratory support and environmental allergy resistance.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Individuals prone to recurrent seasonal coughs, colds, chest congestion, and allergy flare-ups",
+          "Residents of high-pollution cities seeking pulmonary antioxidant defense",
+          "Individuals seeking adaptogenic resilience against everyday environmental toxins"
+        ],
+        "who_should_not_use": [
+          "Pregnant or nursing women (without direct Ayurvedic physician consult)",
+          "Individuals with clinical bleeding disorders or taking anticoagulant drugs (Tulsi has mild anti-platelet activity)"
+        ]
+      },
+      "image": "/images/products/329870ID.png",
+      "images": [
+        "/images/products/329870ID.png",
+        "/images/products/329870ID_1.png",
+        "/images/products/329870ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/h3c/h47/9260078333982/EIA.w800.h800.329870ID_FRONT.png"
+    },
+    {
+      "id": "342575ID",
+      "sku": "342575ID",
+      "name": "NUTRILITE® Brahmi",
+      "pack_sizes": [
+        "60 Tablets (342575ID)"
+      ],
+      "price": "MRP: ₹651 | ABO Price: ₹585.90 (60 Tablets)",
+      "image_url": "/images/products/342575ID.png",
+      "usp": "DNA-fingerprinted Bacopa monnieri extract standardized to 20% active Bacosides (A & B) for synaptic plasticity, memory retention, mental clarity, and neuroprotective longevity.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A nootropic botanical tablet delivering pure *Bacopa monnieri* whole-plant extract, DNA-fingerprinted for authentic botanical certification, standardized to contain 20% active Bacosides (Bacoside A and B), free from heavy metals.",
+        "why_it_is_needed": "Information overload, aging, and chronic stress lead to neuro-inflammation and degraded synaptic communication in the hippocampus. This manifests as mental brain fog, delayed recall, and poor information processing. Brahmi is classical Ayurveda's premier Medhya Rasayana (intellect promoter): Bacosides facilitate synaptic neurotransmission by repairing damaged hippocampal neurons, increasing cerebral blood flow, and upregulating acetylcholinesterase inhibition to preserve Acetylcholine (the learning and memory neurotransmitter). It also acts as an endogenous antioxidant in the brain, scavenging lipid peroxides that damage neural myelin sheaths."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & PubMed Clinical Trial PMID: 23043987",
+        "standard_url": "https://pubmed.ncbi.nlm.nih.gov/23043987/",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Certified Organic Brahmi Whole Plant Extract (Bacopa monnieri)",
+            "product_measurement": "500.0 mg extract per tablet",
+            "standard_measurement": "300.0 – 500.0 mg (Ayurvedic Pharmacopoeia of India API Standard)",
+            "fit_assessment": "Full-spectrum organic extract derived from whole Bacopa monnieri herbs.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Bacosides A & B Content",
+            "product_measurement": "100.0 mg (Standardized to 20.0% HPLC)",
+            "standard_measurement": "Min 10.0% - 15.0% Bacosides (API Monograph Benchmark)",
+            "fit_assessment": "Substantially exceeds API standards; enhances cerebral synaptic protein kinase activity, accelerating synaptic transmission and memory consolidation.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Bacopasides & Hersaponins Matrix",
+            "product_measurement": "Natural triterpenoid saponin complex",
+            "standard_measurement": "Phytochemical authenticity benchmark",
+            "fit_assessment": "Provides neuroprotective antioxidant shielding to cerebral hippocampal neurons against beta-amyloid toxicity.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Whole Herb Equivalence",
+            "product_measurement": "Equivalent to 5.0 g dry organic Brahmi herb",
+            "standard_measurement": "3.0 – 6.0 g dry herb (Traditional Medhya Rasayana Dose)",
+            "fit_assessment": "Delivers gold-standard nootropic dosage to support working memory, focus, and cognitive stamina.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "DNA Identity & AYUSH Compliance",
+            "product_measurement": "100% authenticated Bacopa monnieri; Heavy metals below limits",
+            "standard_measurement": "AYUSH / API Safety Standards",
+            "fit_assessment": "De-linked from toxic canal-grown Brahmi adulterants; certified clean and heavy-metal safe.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Students and professionals requiring sustained mental focus, fast information processing, and memory recall",
+          "Middle-aged and older adults experiencing age-related forgetfulness or brain fog",
+          "Individuals seeking natural, non-stimulant nootropic brain support"
+        ],
+        "who_should_not_use": [
+          "Individuals with clinical bradycardia (slow heart rate) or gastrointestinal ulcers",
+          "Pregnant or lactating women"
+        ]
+      },
+      "image": "/images/products/342575ID.png",
+      "images": [
+        "/images/products/342575ID.png",
+        "/images/products/342575ID_1.png",
+        "/images/products/342575ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/h2e/hc0/9260048089118/EIA.w800.h800.342575ID_FRONT.png"
+    },
+    {
+      "id": "329881ID",
+      "sku": "329881ID",
+      "name": "NUTRILITE® Amalaki, Vibhitaki & Haritaki (Triphala)",
+      "pack_sizes": [
+        "60 Tablets (329881ID)"
+      ],
+      "price": "MRP: ₹651 | ABO Price: ₹585.90 (60 Tablets)",
+      "image_url": "/images/products/329881ID.png",
+      "usp": "Classical Ayurvedic Triphala formula standardized to high Tannins and Gallic acid, gently supporting colon motility, natural bowel evacuation, and mucosal detoxification without chemical laxative dependency.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A standardized Ayurvedic gastrointestinal formulation combining three certified organic fruits in balanced proportions: Amalaki (*Emblica officinalis*), Vibhitaki (*Terminalia bellirica*), and Haritaki (*Terminalia chebula*), standardized to deliver assured levels of active Tannins, Gallic Acid, and Chebulic Acid.",
+        "why_it_is_needed": "Sedentary lifestyles, low-fiber refined diets, and poor hydration lead to sluggish colonic peristalsis, chronic constipation, and toxin buildup. Chemical OTC laxatives (like bisacodyl or senna) irritate the intestinal lining, damage the myenteric plexus, and create dangerous laxative dependency (cathartic colon). Triphala provides a gentle, non-habit-forming physiological solution: Haritaki contains natural anthraquinones that gently stimulate physiological peristalsis; Vibhitaki breaks down mucus and excess intestinal fat; and Amalaki supplies rich natural tannins and Vitamin C to heal and tone the intestinal mucosal lining, restoring natural daily evacuation."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & PubMed Clinical Trial PMID: 28696777",
+        "standard_url": "https://pubmed.ncbi.nlm.nih.gov/28696777/",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Certified Organic Amalaki Fruit Extract (Emblica officinalis)",
+            "product_measurement": "166.6 mg extract per tablet",
+            "standard_measurement": "Ayurvedic Pharmacopoeia of India API Triphala Ratio (1:1:1)",
+            "fit_assessment": "Rich in natural gallic acid, ellagic acid, and bio-complexed Vitamin C; acts as an antioxidant and colon mucosal tonic.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Certified Organic Vibhitaki Fruit Extract (Terminalia bellerica)",
+            "product_measurement": "166.6 mg extract per tablet",
+            "standard_measurement": "API 1:1:1 Classical Formulation Standard",
+            "fit_assessment": "Supplies chebulagic acid and bellericanin; soothes gastrointestinal spasms and expels excess mucosal secretions.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Certified Organic Haritaki Fruit Extract (Terminalia chebula)",
+            "product_measurement": "166.6 mg extract per tablet",
+            "standard_measurement": "API 1:1:1 Classical Formulation Standard",
+            "fit_assessment": "Known as the 'King of Medicines' in Ayurveda; stimulates peristaltic bowel motility without causing laxative dependency.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Total Tannins Content",
+            "product_measurement": "165.0 mg per tablet (Standardized to 33.0%)",
+            "standard_measurement": "Min 25.0% - 30.0% Tannins (API Monograph Standard)",
+            "fit_assessment": "Exceeds pharmacopoeial standards; provides gentle, non-habit forming colonic detoxification and bowel regularity.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Whole Herb Equivalence",
+            "product_measurement": "Equivalent to 3.0 g raw organic Triphala churna",
+            "standard_measurement": "3.0 – 6.0 g Triphala powder (API Standard)",
+            "fit_assessment": "Concentrates the complete digestive rejuvenating benefit of traditional Triphala powder without unpleasant astringent taste.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Individuals suffering from chronic sluggish digestion, irregular morning bowel evacuation, or abdominal heaviness",
+          "Individuals desiring gentle internal colon cleansing and digestive rejuvenation"
+        ],
+        "who_should_not_use": [
+          "Pregnant women (Haritaki has mild downward vata-moving effects that could stimulate uterine contractions)",
+          "Individuals with acute diarrhea, dysentery, or inflammatory bowel disease flares"
+        ]
+      },
+      "image": "/images/products/329881ID.png",
+      "images": [
+        "/images/products/329881ID.png",
+        "/images/products/329881ID_1.png",
+        "/images/products/329881ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/hd5/he4/9260076302366/EIA.w800.h800.329881ID_FRONT.png"
+    },
+    {
+      "id": "329872ID",
+      "sku": "329872ID",
+      "name": "NUTRILITE® Madhunashini, Shunti & Twak",
+      "pack_sizes": [
+        "60 Tablets (329872ID)"
+      ],
+      "price": "MRP: ₹901 | ABO Price: ₹811.65 (60 Tablets)",
+      "image_url": "/images/products/329872ID.png",
+      "usp": "Targeted Ayurvedic glycemic formulation combining Gymnema sylvestre (Madhunashini), Ginger (Shunti), and Cinnamon (Twak) standardized to Gymnemic Acids for pancreatic beta-cell support, insulin sensitivity, and sugar craving suppression.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A targeted metabolic botanical formulation combining standardized extracts of three classical Ayurvedic herbs: Madhunashini (*Gymnema sylvestre* standardized to Gymnemic Acids), Shunti (*Zingiber officinale* / Ginger standardized to Gingerols), and Twak (*Cinnamomum zeylanicum* / Ceylon Cinnamon standardized to Cinnamaldehyde).",
+        "why_it_is_needed": "India has the world's second-highest diabetic population, driven by peripheral insulin receptor resistance, carbohydrate overfeeding, and pancreatic beta-cell exhaustion. Simple carbohydrate foods trigger rapid glucose surges followed by severe reactive hypoglycemic sugar cravings. Madhunashini literally translates to 'destroyer of sugar': Gymnemic acid molecules structurally mimic glucose, temporarily binding to sweet taste receptors on the tongue to abolish sugar cravings, while binding to intestinal glucose transporters (SGLT1) to slow sugar uptake into the blood. Cinnamon enhances insulin receptor substrate-1 (IRS-1) phosphorylation to improve cellular glucose uptake, and Ginger boosts peripheral circulation and digestive agni."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & PubMed Clinical Trial PMID: 22593937",
+        "standard_url": "https://pubmed.ncbi.nlm.nih.gov/22593937/",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Madhunashini Leaf Extract (Gymnema sylvestre)",
+            "product_measurement": "300.0 mg standardized extract per tablet",
+            "standard_measurement": "250.0 – 500.0 mg (Ayurvedic Pharmacopoeia of India API Standard)",
+            "fit_assessment": "Standardized to 25% Gymnemic Acids (75 mg active gymnemic acids); regenerates pancreatic beta-cells and blocks intestinal glucose receptors.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Shunti Rhizome Extract (Zingiber officinale / Dry Ginger)",
+            "product_measurement": "100.0 mg standardized extract per tablet",
+            "standard_measurement": "100.0 – 200.0 mg (API Standard)",
+            "fit_assessment": "Standardized to 5% Gingerols (5 mg active gingerols); enhances digestive agni, accelerates gastric emptying, and improves insulin sensitivity.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Twak Bark Extract (Cinnamomum zeylanicum / Ceylon Cinnamon)",
+            "product_measurement": "100.0 mg standardized extract per tablet",
+            "standard_measurement": "100.0 – 200.0 mg (API Standard)",
+            "fit_assessment": "Standardized to 10% Polyphenols (10 mg active cinnamic polyphenols); acts as an insulin mimetic, activating GLUT-4 glucose transporters.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Bio-Markers (Gymnemic Acids, Gingerols, Polyphenols)",
+            "product_measurement": "90.0 mg synergized active phytocomplex",
+            "standard_measurement": "Standardized poly-herbal benchmark for glucose metabolism",
+            "fit_assessment": "Triple synergistic action curbs sugar cravings, reduces postprandial glucose excursions, and supports healthy HbA1c levels.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "DNA Purity & Authenticity",
+            "product_measurement": "100% verified botanical species; zero synthetic adulterants",
+            "standard_measurement": "API / AYUSH Heavy Metal & Microbial Limits",
+            "fit_assessment": "100% compliant with medical safety regulations; safe as an adjunct to lifestyle and medical glucose management.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Individuals with pre-diabetes, insulin resistance, or metabolic syndrome seeking natural glycemic balance",
+          "Type 2 diabetic patients seeking supportive herbal nutrition (under physician supervision)",
+          "Individuals battling intense sweet/sugar cravings after meals"
+        ],
+        "who_should_not_use": [
+          "Patients with acute hypoglycemia (low blood sugar)",
+          "Pregnant and nursing women",
+          "Patients on insulin or sulfonylureas without physician monitoring (potential additive hypoglycemic effect)"
+        ]
+      },
+      "image": "/images/products/329872ID.png",
+      "images": [
+        "/images/products/329872ID.png",
+        "/images/products/329872ID_1.png",
+        "/images/products/329872ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/h79/h1d/9260045860894/EIA.w800.h800.329872ID_FRONT.png"
+    },
+    {
+      "id": "342578ID",
+      "sku": "342578ID",
+      "name": "NUTRILITE® Vasaka, Mulethi & Surasa",
+      "pack_sizes": [
+        "60 Tablets (342578ID)"
+      ],
+      "price": "MRP: ₹901 | ABO Price: ₹811.65 (60 Tablets)",
+      "image_url": "/images/products/342578ID.png",
+      "usp": "Classical respiratory Ayurvedic formulation combining Vasaka (Adhatoda vasica), Mulethi (Licorice), and Surasa (Holy Basil) standardized to Vasicine and Glycyrrhizin to liquefy thick bronchial phlegm, soothe throat irritation, and ease breathing.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A targeted bronchial respiratory formulation combining standardized extracts of Vasaka (*Adhatoda vasica* standardized to Vasicine), Mulethi (*Glycyrrhiza glabra* / Licorice standardized to Glycyrrhizic acid), and Surasa (*Ocimum sanctum* / Holy Basil), alongside supporting herbs (Kantakari, Haridra).",
+        "why_it_is_needed": "Acute respiratory infections, atmospheric smoke, and post-viral bronchitis cause excessive production of thick, viscous pulmonary mucus (phlegm) and persistent tracheobronchial irritation. Cough syrups containing chemical dextromethorphan simply numb the brain's cough center while allowing mucus to stagnate in lungs. Vasaka, Mulethi & Surasa works as a physiological mucolytic and bronchodilator: active Vasicine stimulates lysosomal enzymes to break down mucus mucopolysaccharides, thinning thick phlegm so it can be easily coughed up; Mulethi coats inflamed pharyngeal tissues with soothing demulcent glycyrrhizin; and Surasa relieves bronchial smooth muscle spasms to open tight airways."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & WHO Monographs on Selected Medicinal Plants",
+        "standard_url": "https://apps.who.int/medicinedocs/en/d/Js2200e/2.html",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Vasaka Leaf Extract (Adhatoda vasica)",
+            "product_measurement": "250.0 mg standardized extract per tablet",
+            "standard_measurement": "200.0 – 400.0 mg (Ayurvedic Pharmacopoeia of India API Standard)",
+            "fit_assessment": "Standardized to 1.0% Vasicine alkaloid (2.5 mg active vasicine); acts as a potent bronchodilator and liquefies thick bronchial mucus.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Mulethi Root Extract (Glycyrrhiza glabra / Licorice)",
+            "product_measurement": "150.0 mg standardized extract per tablet",
+            "standard_measurement": "100.0 – 300.0 mg (API Standard)",
+            "fit_assessment": "Standardized to 10.0% Glycyrrhizin (15 mg active glycyrrhizin); coats irritated pharyngeal mucosa, reducing cough reflex excitability.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Surasa Leaf Extract (Ocimum sanctum / Holy Basil)",
+            "product_measurement": "100.0 mg standardized extract per tablet",
+            "standard_measurement": "100.0 – 200.0 mg (API Standard)",
+            "fit_assessment": "Standardized to 2.0% Ursolic Acid (2.0 mg active ursolic acid); relieves bronchial spasms and provides antiviral/antibacterial mucosal protection.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Active Synergized Respiratory Markers",
+            "product_measurement": "19.5 mg total active phytomarkers (Vasicine, Glycyrrhizin, Ursolic acid)",
+            "standard_measurement": "API Respiratory Poly-Herbal Monograph Benchmark",
+            "fit_assessment": "Triple-action respiratory support: dilates airways, soothes inflamed throat tissues, and clears chronic respiratory congestion.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "DNA Authentication & Safety",
+            "product_measurement": "100% verified botanical species; non-drowsy, zero chemical sedatives",
+            "standard_measurement": "AYUSH / API Safety Standards",
+            "fit_assessment": "Safe daytime cough and respiratory formulation that relieves congestion without causing daytime sedation.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Individuals suffering from persistent productive coughs, thick chest mucus, or throat tickling",
+          "Individuals with recurring seasonal bronchitis, smoker's cough, or pollution-induced airway spasms"
+        ],
+        "who_should_not_use": [
+          "Individuals with severe uncontrolled hypertension (Mulethi/glycyrrhizin in high doses can cause mild pseudoaldosteronism)",
+          "Pregnant women (Vasaka contains uterine stimulant alkaloids contraindicated in pregnancy)"
+        ]
+      },
+      "image": "/images/products/342578ID.png",
+      "images": [
+        "/images/products/342578ID.png",
+        "/images/products/342578ID_1.png",
+        "/images/products/342578ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/hb8/h69/9260208783390/EIA.w800.h800.342578ID_FRONT.png"
+    },
+    {
+      "id": "342573ID",
+      "sku": "342573ID",
+      "name": "NUTRILITE® Ginseng Cherry Plus",
+      "pack_sizes": [
+        "100 Tablets (342573ID)"
+      ],
+      "price": "MRP: ₹3,110 | ABO Price: ₹2,906.40 (100 Tablets)",
+      "image_url": "/images/products/342573ID.png",
+      "usp": "High-potency dual Ginseng adaptogen combining Siberian Ginseng (Eleuthero) and Korean Red Ginseng standardized to Ginsenosides, enriched with Acerola Cherry Vitamin C, designed for cellular stamina, athletic endurance, and anti-fatigue.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A premium adaptogenic vitality tablet delivering a dual Ginseng complex: Siberian Ginseng Root Extract (*Eleutherococcus senticosus*) and Korean Red Ginseng Root Extract (*Panax ginseng*) standardized to active Ginsenosides and Eleutherosides, co-formulated with 25mg natural Vitamin C from Acerola Cherries and peppermint extract.",
+        "why_it_is_needed": "Chronic severe physical fatigue, sluggish workout endurance, and executive mental exhaustion stem from compromised mitochondrial ATP synthesis and blunted adrenal catecholamine responses. Synthetic caffeine and energy drinks merely mask exhaustion while worsening adrenal burnout and causing rebound tremors. Ginseng Cherry Plus is a true metabolic adaptogen: active Ginsenosides cross the blood-brain barrier to upregulate dopamine and norepinephrine turnover, increase muscle glycogen conservation, and stimulate nitric oxide synthesis to enhance cellular oxygen delivery, while Eleutherosides reduce exercise-induced lactic acid accumulation, boosting aerobic endurance and rapid recovery without jitters."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "European Medicines Agency (EMA) Herbal Monograph on Panax ginseng & WHO Monographs",
+        "standard_url": "https://www.ema.europa.eu/en/medicines/herbal/ginseng-radix",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Siberian Ginseng Root Extract (Eleutherococcus senticosus)",
+            "product_measurement": "100.0 mg standardized extract per tablet",
+            "standard_measurement": "100.0 – 200.0 mg (Clinical Adaptogen Benchmark)",
+            "fit_assessment": "Standardized to 0.8% Eleutherosides B & E; modulates hypothalamic-pituitary-adrenal axis, improving physical endurance and lactic acid clearance.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Ginkgo Biloba Leaf Extract",
+            "product_measurement": "66.8 mg standardized extract per tablet",
+            "standard_measurement": "40.0 – 80.0 mg (German Commission E / WHO Standard)",
+            "fit_assessment": "Standardized to 24% Ginkgoflavone Glycosides & 6% Terpene Lactones; enhances cerebral and peripheral capillary microcirculation.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Schisandra Berry Extract (Schisandra chinensis)",
+            "product_measurement": "20.0 mg standardized extract",
+            "standard_measurement": "20.0 – 50.0 mg (Adaptogenic Synergist Standard)",
+            "fit_assessment": "Supplies schisandrin lignans that enhance hepatic phase-I/II detoxification and cellular mitochondrial energy.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Organic Acerola Cherry Concentrate",
+            "product_measurement": "15.0 mg whole food extract",
+            "standard_measurement": "Natural bioflavonoid antioxidant standard",
+            "fit_assessment": "Supplies natural Vitamin C co-factors to scavenge exercise-induced free radicals.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Citrus Bioflavonoid Complex",
+            "product_measurement": "25.0 mg active citrus bioflavonoids",
+            "standard_measurement": "Vascular integrity benchmark",
+            "fit_assessment": "Strengthens microvascular basement membranes and enhances oxygen delivery to working skeletal and cerebral tissues.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Athletes, fitness professionals, and high-performance individuals requiring physical stamina and faster recovery",
+          "Middle-aged adults combating chronic low vitality, morning lethargy, and mental exhaustion"
+        ],
+        "who_should_not_use": [
+          "Individuals with acute uncontrolled high blood pressure (Panax ginseng can mildly elevate blood pressure in severe hypertension)",
+          "Pregnant and nursing mothers",
+          "Individuals taking prescription MAO inhibitor anti-depressants"
+        ]
+      },
+      "image": "/images/products/342573ID.png",
+      "images": [
+        "/images/products/342573ID.png",
+        "/images/products/342573ID_1.png",
+        "/images/products/342573ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/hae/h28/9263148269598/EIA.w800.h800.342573ID_1.png"
+    },
+    {
+      "id": "329890ID",
+      "sku": "329890ID",
+      "name": "NUTRILITE® Chyawanprash",
+      "pack_sizes": [
+        "500 g Paste (329890ID)"
+      ],
+      "price": "MRP: ₹620 | ABO Price: ₹562.80 (500g)",
+      "image_url": "/images/products/329890ID.png",
+      "usp": "Authentic Ayurvedic Rasayana formulated with 16 certified organic herbs with a pure Amla (Indian Gooseberry) base, prepared in pure cow ghee and honey to build Ojas, enhance respiratory immunity, and invigorate all 7 Dhatus.",
+      "clinical_nutrition_rationale": {
+        "what_it_is": "A classical Ayurvedic polyherbal nutritive jam (*Rasayana*) formulated in strict adherence to the *Charaka Samhita* treatise. It is prepared with 16 certified organic Ayurvedic herbs—including Dashamoola, Ashwagandha, Shatavari, Pippali, Gokshura, and Vidarikand—embedded in a nutrient-dense base of fresh wild Amla (*Emblica officinalis* / Indian Gooseberry), raw unrefined cane jaggery, pure cow's ghee (*Desi Ghee*), sesame oil, and forest honey.",
+        "why_it_is_needed": "Modern urban populations suffer from compromised systemic vitality (*Ojas* deficiency) due to chronic stress, pollution, and chemical food additives, leading to recurring respiratory infections, sluggish digestion (*Manda Agni*), and premature cellular aging. Commercial mass-market chyawanprash brands are often 70% cheap white sugar syrup with minimal real herbs. Nutrilite Chyawanprash uses certified organic botanicals with genuine Amla base cooked in cow ghee: lipid-soluble herbal actives are carried directly into deep tissues via liposomal ghee transport, while high natural tannins and Vitamin C from Amla strengthen pulmonary macrophages, stimulate digestion without acidity, and build deep systemic immunity."
+      },
+      "medical_standards_validation": {
+        "standard_authority": "Ayurvedic Pharmacopoeia of India (API) & National Institute of Ayurveda (NIA) Clinical Standards",
+        "standard_url": "https://pubmed.ncbi.nlm.nih.gov/30671158/",
+        "secondary_url": "https://ods.od.nih.gov/factsheets/DietarySupplements-HealthProfessional/",
+        "verification_table": [
+          {
+            "ingredient": "Certified Organic Amla Pulp Base (Emblica officinalis)",
+            "product_measurement": "3.2 g pure pulp per 10g serving (32% of total formulation)",
+            "standard_measurement": "Charaka Samhita & Ayurvedic Pharmacopoeia of India API Classical Standard",
+            "fit_assessment": "Natural fresh Indian gooseberry base supplying ~50mg organic bio-complexed Vitamin C with heat-stable bioflavonoids.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "16 Certified Organic Ayurvedic Herbs Matrix",
+            "product_measurement": "Ashwagandha, Shatavari, Pipali, Gokshura, Giloy/Guduchi, Cardamom, Cinnamon, etc. (Approx. 2.5g herbal decoction)",
+            "standard_measurement": "API Classical Rasayana Formulation Guidelines",
+            "fit_assessment": "Formulated strictly from certified organic herbs that enhance ojas (vital immunity), stimulate bone marrow erythropoiesis, and improve respiratory defense.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Clarified Cow's Butter (Desi Cow Ghee) & Sesame Oil",
+            "product_measurement": "1.0 g traditional lipid carrier (anupana)",
+            "standard_measurement": "API Classical Lipid Base Standard",
+            "fit_assessment": "Acts as an essential lipophilic vehicle (anupana) that facilitates deep tissue cellular absorption across lipid membranes.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Wild Honey & Organic Jaggery Matrix",
+            "product_measurement": "Natural preservation matrix; zero chemical preservatives",
+            "standard_measurement": "Traditional Ayurvedic Yogavahi (Preservative Carrier) Standard",
+            "fit_assessment": "Natural preservation system ensuring 24-month stability without synthetic sodium benzoate or potassium sorbate.",
+            "rating": "Good"
+          },
+          {
+            "ingredient": "Lead, Cadmium, Arsenic Purity & DNA Authentication",
+            "product_measurement": "100% compliant with AYUSH safety limits; Lead < 10 ppm, Cadmium < 0.3 ppm",
+            "standard_measurement": "AYUSH / API Heavy Metal Safety Regulations",
+            "fit_assessment": "Eliminates heavy metal contamination commonly found in unstandardized commercial bazar chyawanprash.",
+            "rating": "Good"
+          }
+        ]
+      },
+      "target_audience": {
+        "who_may_use": [
+          "Individuals of all ages (from 6 years to elderly) seeking daily holistic immunity and seasonal resistance",
+          "Individuals recovering from long illnesses needing convalescent strength rebuilding",
+          "Individuals seeking classical Ayurvedic longevity and digestive Agni support"
+        ],
+        "who_should_not_use": [
+          "Uncontrolled Type 1 or Type 2 diabetics (contains natural jaggery and honey; requires careful glycemic monitoring)",
+          "Individuals with acute active gastritis or hyperacidity flares (consume with warm milk to buffer herbs)"
+        ]
+      },
+      "image": "/images/products/329890ID.png",
+      "images": [
+        "/images/products/329890ID.png",
+        "/images/products/329890ID_1.png",
+        "/images/products/329890ID_2.png"
+      ],
+      "official_online_image": "https://media.amway.in/sys-master/images/hd3/h23/9245521969182/EIA.w800.h800.329890ID_1.png"
+    }
+  ]
+}

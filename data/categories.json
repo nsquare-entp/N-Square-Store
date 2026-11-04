@@ -1,0 +1,82 @@
+[
+  {
+    "id": "nutritional",
+    "name": "Nutritional",
+    "icon": "🥗",
+    "description": "Nutrilite foundational vitamins, protein powders, dietary supplements, and authentic Ayurvedic wellness formulations.",
+    "order": 1,
+    "parentId": null
+  },
+  {
+    "id": "beauty",
+    "name": "Beauty",
+    "icon": "✨",
+    "description": "Artistry prestige skincare, targeted serums, dermatological treatments, and radiant cosmetics.",
+    "order": 2,
+    "parentId": null
+  },
+  {
+    "id": "personal_care",
+    "name": "Personal Care",
+    "icon": "🧴",
+    "description": "G&H botanical body care, Glister total oral care solutions, and Satinique salon-grade hair care.",
+    "order": 3,
+    "parentId": null
+  },
+  {
+    "id": "home_living",
+    "name": "Home & Living",
+    "icon": "🏡",
+    "description": "Amway Queen premium cookware, Atmosphere air treatment systems, and concentrated eco-friendly cleaning.",
+    "order": 4,
+    "parentId": null
+  },
+  {
+    "id": "others",
+    "name": "Others",
+    "icon": "📦",
+    "description": "Specialized health accessories, fitness tools, dispensers, and wellness literature.",
+    "order": 5,
+    "parentId": null
+  },
+  {
+    "id": "category1",
+    "name": "Protein Powders",
+    "icon": "💪",
+    "description": "Foundational macro-nutrition and targeted sports protein formulations designed to support positive nitrogen balance and muscle recovery.",
+    "order": 1,
+    "parentId": "nutritional"
+  },
+  {
+    "id": "category2",
+    "name": "Weight Management",
+    "icon": "⚖️",
+    "description": "Metabolic weight management, prebiotic soluble fiber, and balanced meal replacements.",
+    "order": 2,
+    "parentId": "nutritional"
+  },
+  {
+    "id": "category3",
+    "name": "Daily Supplements",
+    "icon": "💊",
+    "description": "Essential multivitamins, calcium, minerals, and targeted daily micronutrient formulations.",
+    "order": 3,
+    "parentId": "nutritional"
+  },
+  {
+    "id": "category4",
+    "name": "Nutritional Gummies",
+    "icon": "🍓",
+    "description": "Delicious pectin-based chewable vitamins and lifestyle nutrition gummies.",
+    "order": 4,
+    "parentId": "nutritional"
+  },
+  {
+    "id": "category5",
+    "name": "Traditional Herbs",
+    "icon": "🌿",
+    "description": "Authentic DNA-fingerprinted Ayurvedic and botanical wellness formulations.",
+    "order": 5,
+    "parentId": "nutritional"
+  }
+]
