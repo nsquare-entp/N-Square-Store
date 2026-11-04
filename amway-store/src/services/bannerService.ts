@@ -50,8 +50,10 @@ export function saveBanners(banners: BannerItem[]): boolean {
     const bannersFile = getBannersFilePath();
     atomicWriteJson(bannersFile, banners);
     return true;
-  } catch (err) {
-    console.error('Error saving banners.json:', err);
+  } catch (err: any) {
+    if (err?.code !== 'EROFS' && err?.code !== 'EACCES') {
+      console.error('Error saving banners.json:', err);
+    }
     return false;
   }
 }

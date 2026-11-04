@@ -96,16 +96,17 @@ export async function DELETE(request: Request) {
       }
     }
 
-    if (!id) {
+    if (!id || !id.trim()) {
       return NextResponse.json({ error: 'User ID is required (via ?id= or JSON body)' }, { status: 400 });
     }
 
-    const success = deleteUser(id);
+    const cleanId = id.trim();
+    const success = deleteUser(cleanId);
     if (!success) {
       return NextResponse.json({ error: 'User not found or already deleted' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, message: `User ${id} permanently deleted` });
+    return NextResponse.json({ success: true, message: `User ${cleanId} permanently deleted` });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Failed to delete user' }, { status: 500 });
   }

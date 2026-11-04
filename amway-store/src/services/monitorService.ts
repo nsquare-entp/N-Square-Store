@@ -2,7 +2,7 @@ import fs from 'fs';
 import https from 'https';
 import { getCatalog, reloadCatalogFromDisk, upsertProduct, CatalogProduct } from './catalogService';
 import { getStock, StockInfo } from './stockService';
-import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
+import { getDataFilePath, atomicWriteJson, isServerlessEnvironment } from '../utils/dataPath';
 
 export interface MonitorAlert {
   id: string;
@@ -796,12 +796,9 @@ declare global {
 export function initMonitorScheduler() {
   // In development mode, static build, or serverless environments (Vercel/Lambda), do not run background scrapers
   if (
+    isServerlessEnvironment() ||
     process.env.NODE_ENV === 'development' ||
-    process.env.NEXT_PHASE === 'phase-production-build' ||
-    process.env.VERCEL ||
-    process.env.AWS_LAMBDA_FUNCTION_NAME ||
-    process.env.LAMBDA_TASK_ROOT ||
-    process.env.NETLIFY
+    process.env.NEXT_PHASE === 'phase-production-build'
   ) {
     return;
   }

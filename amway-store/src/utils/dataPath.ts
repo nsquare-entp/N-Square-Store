@@ -7,13 +7,28 @@ import os from 'os';
  * with a read-only filesystem (e.g. Vercel, AWS Lambda, Netlify functions).
  */
 export function isServerlessEnvironment(): boolean {
-  return Boolean(
-    process.env.VERCEL ||
-    process.env.AWS_LAMBDA_FUNCTION_NAME ||
-    process.env.LAMBDA_TASK_ROOT ||
-    process.env.NETLIFY ||
-    process.env.NOW_REGION
-  );
+  if (
+    Boolean(
+      process.env.VERCEL ||
+      process.env.VERCEL_ENV ||
+      process.env.AWS_LAMBDA_FUNCTION_NAME ||
+      process.env.LAMBDA_TASK_ROOT ||
+      process.env.LAMBDA_RUNTIME_DIR ||
+      process.env.NETLIFY ||
+      process.env.NOW_REGION
+    )
+  ) {
+    return true;
+  }
+
+  try {
+    const cwd = typeof process.cwd === 'function' ? process.cwd() : '';
+    if (cwd.includes('/var/task') || cwd.includes('\\var\\task')) {
+      return true;
+    }
+  } catch {}
+
+  return false;
 }
 
 /**
@@ -22,7 +37,11 @@ export function isServerlessEnvironment(): boolean {
  * In local development or full servers, this returns the persistent ./data folder.
  */
 export function getWritableDataDir(): string {
-  if (isServerlessEnvironment()) {
+  const isServerless =
+    isServerlessEnvironment() ||
+    Boolean(typeof process.cwd === 'function' && (process.cwd().includes('/var/task') || process.cwd().includes('\\var\\task')));
+
+  if (isServerless) {
     const tmpDataDir = path.join(os.tmpdir(), 'nsquare_data');
     if (!fs.existsSync(tmpDataDir)) {
       try {
@@ -77,12 +96,10 @@ export function getDataDir(): string {
  * If so, it returns that. Otherwise, it returns the bundled seed file.
  */
 export function getDataFilePath(filename: string): string {
-  // 1. If running in serverless, check if the mutated file exists in /tmp
-  if (isServerlessEnvironment()) {
-    const tmpFilePath = path.join(os.tmpdir(), 'nsquare_data', filename);
-    if (fs.existsSync(tmpFilePath)) {
-      return tmpFilePath;
-    }
+  // 1. If mutated version exists in /tmp, always use it
+  const tmpFilePath = path.join(os.tmpdir(), 'nsquare_data', filename);
+  if (fs.existsSync(tmpFilePath)) {
+    return tmpFilePath;
   }
 
   // 2. Check the primary bundled data directory
@@ -117,10 +134,16 @@ export function getDataFilePath(filename: string): string {
  */
 export function atomicWriteJson(filePath: string, data: any): void {
   const filename = path.basename(filePath);
+  const isReadOnly =
+    isServerlessEnvironment() ||
+    filePath.includes('/var/task') ||
+    filePath.includes('\\var\\task') ||
+    (typeof process.cwd === 'function' && (process.cwd().includes('/var/task') || process.cwd().includes('\\var\\task')));
+
   let targetPath = filePath;
 
   // In serverless, or if target is under /var/task, always write to /tmp
-  if (isServerlessEnvironment() || targetPath.startsWith('/var/task')) {
+  if (isReadOnly) {
     const tmpDataDir = getWritableDataDir();
     targetPath = path.join(tmpDataDir, filename);
   }
@@ -132,19 +155,31 @@ export function atomicWriteJson(filePath: string, data: any): void {
     } catch (e) {}
   }
 
-  const tmpPath = `${targetPath}.tmp.${Date.now()}.${Math.random().toString(36).slice(2, 6)}`;
+  const tmpPath = path.join(
+    dir,
+    `${filename}.tmp.${Date.now()}.${Math.random().toString(36).slice(2, 6)}`
+  );
+
   try {
     fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), 'utf-8');
-    fs.renameSync(tmpPath, targetPath);
+    try {
+      fs.renameSync(tmpPath, targetPath);
+    } catch (renameErr) {
+      // In case rename fails (cross-device link), fallback to copy + unlink
+      fs.copyFileSync(tmpPath, targetPath);
+      try {
+        fs.unlinkSync(tmpPath);
+      } catch {}
+    }
   } catch (err: any) {
-    // If writing to the primary path failed with EROFS (read-only filesystem), retry writing to /tmp
+    // If writing to the primary path failed with EROFS / EACCES, redirect write to /tmp
     if (err && (err.code === 'EROFS' || err.code === 'EACCES') && !targetPath.includes(os.tmpdir())) {
       try {
-        const fallbackPath = path.join(os.tmpdir(), 'nsquare_data', filename);
-        const fallbackDir = path.dirname(fallbackPath);
+        const fallbackDir = path.join(os.tmpdir(), 'nsquare_data');
         if (!fs.existsSync(fallbackDir)) {
           fs.mkdirSync(fallbackDir, { recursive: true });
         }
+        const fallbackPath = path.join(fallbackDir, filename);
         fs.writeFileSync(fallbackPath, JSON.stringify(data, null, 2), 'utf-8');
         return;
       } catch (fallbackErr) {
@@ -158,10 +193,27 @@ export function atomicWriteJson(filePath: string, data: any): void {
       }
     } catch (e) {}
 
-    try {
-      fs.writeFileSync(targetPath, JSON.stringify(data, null, 2), 'utf-8');
-    } catch (writeErr) {
-      console.error(`[dataPath] Final write failed for ${filename}:`, writeErr);
+    // Never attempt to write directly to /var/task if read-only
+    if (!targetPath.includes('/var/task') && !targetPath.includes('\\var\\task')) {
+      try {
+        fs.writeFileSync(targetPath, JSON.stringify(data, null, 2), 'utf-8');
+      } catch (writeErr) {
+        console.error(`[dataPath] Final write failed for ${filename}:`, writeErr);
+      }
     }
+  }
+
+  // In local development, ensure both amway-store/data and root data stay synchronized
+  if (!isReadOnly && !targetPath.includes(os.tmpdir())) {
+    try {
+      const rootDataPath = path.join(process.cwd(), 'data', filename);
+      const appDataPath = path.join(process.cwd(), 'amway-store', 'data', filename);
+      if (fs.existsSync(path.dirname(rootDataPath)) && rootDataPath !== targetPath && fs.existsSync(rootDataPath)) {
+        fs.writeFileSync(rootDataPath, JSON.stringify(data, null, 2), 'utf-8');
+      }
+      if (fs.existsSync(path.dirname(appDataPath)) && appDataPath !== targetPath && fs.existsSync(appDataPath)) {
+        fs.writeFileSync(appDataPath, JSON.stringify(data, null, 2), 'utf-8');
+      }
+    } catch {}
   }
 }

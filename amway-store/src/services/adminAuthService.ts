@@ -36,8 +36,10 @@ export function saveAdminConfig(config: AdminConfig): void {
   const filePath = getAdminConfigPath();
   try {
     atomicWriteJson(filePath, config);
-  } catch (e) {
-    console.error('[AdminAuthService] Error saving admin_config.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('[AdminAuthService] Error saving admin_config.json:', e);
+    }
   }
 }
 

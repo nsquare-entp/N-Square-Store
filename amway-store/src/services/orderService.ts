@@ -35,8 +35,10 @@ export function saveAllOrders(orders: CustomerOrder[]): void {
   const filePath = getOrdersFilePath();
   try {
     atomicWriteJson(filePath, orders);
-  } catch (e) {
-    console.error('[OrderService] Error saving orders.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('[OrderService] Error saving orders.json:', e);
+    }
   }
 }
 

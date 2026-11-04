@@ -26,8 +26,10 @@ function saveDiskLeads(leads: any[]): void {
   try {
     const filePath = getLeadsFilePath();
     atomicWriteJson(filePath, leads);
-  } catch (e) {
-    console.error('Error saving leads.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('Error saving leads.json:', e);
+    }
   }
 }
 

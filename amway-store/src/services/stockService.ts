@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
+import { getDataFilePath, atomicWriteJson, isServerlessEnvironment } from '../utils/dataPath';
 
 export interface StockInfo {
   sku: string;
@@ -141,7 +141,11 @@ export async function fetchLiveStockFromAmway(sku: string): Promise<StockInfo> {
     saveCache();
     return stockInfo;
   } catch (err: any) {
-    console.error(`[StockService] Live fetch error for ${sku}:`, err.message);
+    if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+      console.warn(`[StockService] Live fetch timeout for ${sku}, using safe in-stock fallback.`);
+    } else {
+      console.warn(`[StockService] Live fetch note for ${sku}:`, err?.message || err);
+    }
     const fallback: StockInfo = {
       sku,
       inStock: true,
@@ -212,12 +216,9 @@ declare global {
 export function initStockScheduler(allSkus: string[]) {
   // In development mode, static build, or serverless environments (Vercel/Lambda), do not run background scrapers
   if (
+    isServerlessEnvironment() ||
     process.env.NODE_ENV === 'development' ||
-    process.env.NEXT_PHASE === 'phase-production-build' ||
-    process.env.VERCEL ||
-    process.env.AWS_LAMBDA_FUNCTION_NAME ||
-    process.env.LAMBDA_TASK_ROOT ||
-    process.env.NETLIFY
+    process.env.NEXT_PHASE === 'phase-production-build'
   ) {
     return;
   }

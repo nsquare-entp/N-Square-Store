@@ -3,6 +3,7 @@ import path from 'path';
 import { UserAccount } from '../types/user';
 import { CartItem } from '../store/useCartStore';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
+import { deleteAccountRequestsByUserId } from './accountRequestService';
 
 declare global {
   var __nsquare_users_cache__: UserAccount[] | undefined;
@@ -38,14 +39,18 @@ export function saveAllUsers(users: UserAccount[]): void {
   const filePath = getUsersFilePath();
   try {
     atomicWriteJson(filePath, users);
-  } catch (e) {
-    console.error('[UserService] Error saving users.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('[UserService] Error saving users.json:', e);
+    }
   }
 }
 
 export function getUserById(id: string): UserAccount | undefined {
+  if (!id) return undefined;
+  const cleanId = id.trim().toLowerCase();
   const users = getAllUsers();
-  return users.find((u) => u.id === id);
+  return users.find((u) => u.id === id || u.id.trim().toLowerCase() === cleanId);
 }
 
 export function getUserByLoginKey(loginKey: string): UserAccount | undefined {
@@ -107,8 +112,10 @@ export function createUser(data: {
 }
 
 export function updateUser(id: string, updates: Partial<UserAccount>): UserAccount | null {
+  if (!id) return null;
+  const cleanId = id.trim().toLowerCase();
   const users = getAllUsers();
-  const idx = users.findIndex((u) => u.id === id);
+  const idx = users.findIndex((u) => u.id === id || u.id.trim().toLowerCase() === cleanId);
   if (idx < 0) return null;
 
   const updated: UserAccount = {
@@ -124,11 +131,16 @@ export function updateUser(id: string, updates: Partial<UserAccount>): UserAccou
 }
 
 export function deleteUser(id: string): boolean {
+  if (!id || typeof id !== 'string') return false;
+  const cleanId = id.trim();
   const users = getAllUsers();
   const initialLength = users.length;
-  const filtered = users.filter((u) => u.id !== id);
+  const filtered = users.filter((u) => u.id !== cleanId && u.id.trim().toLowerCase() !== cleanId.toLowerCase());
   if (filtered.length < initialLength) {
     saveAllUsers(filtered);
+    try {
+      deleteAccountRequestsByUserId(cleanId);
+    } catch {}
     return true;
   }
   return false;

@@ -3,32 +3,55 @@ import path from 'path';
 import { AccountUpdateRequest } from '../types/user';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
 
+declare global {
+  var __nsquare_account_requests_cache__: AccountUpdateRequest[] | undefined;
+}
+
 function getRequestsFilePath(): string {
   return getDataFilePath('account_requests.json');
 }
 
-export function getAllAccountRequests(): AccountUpdateRequest[] {
+export function getAllAccountRequests(forceReload = false): AccountUpdateRequest[] {
+  if (!forceReload && globalThis.__nsquare_account_requests_cache__) {
+    return globalThis.__nsquare_account_requests_cache__;
+  }
   const filePath = getRequestsFilePath();
   if (fs.existsSync(filePath)) {
     try {
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
-        return parsed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        globalThis.__nsquare_account_requests_cache__ = parsed.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        return globalThis.__nsquare_account_requests_cache__;
       }
     } catch (e) {
       console.error('[AccountRequestService] Error reading account_requests.json:', e);
     }
   }
-  return [];
+  globalThis.__nsquare_account_requests_cache__ = [];
+  return globalThis.__nsquare_account_requests_cache__;
 }
 
 export function saveAllAccountRequests(requests: AccountUpdateRequest[]): void {
+  globalThis.__nsquare_account_requests_cache__ = [...requests];
   const filePath = getRequestsFilePath();
   try {
     atomicWriteJson(filePath, requests);
-  } catch (e) {
-    console.error('[AccountRequestService] Error saving account_requests.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('[AccountRequestService] Error saving account_requests.json:', e);
+    }
+  }
+}
+
+export function deleteAccountRequestsByUserId(userId: string): void {
+  if (!userId) return;
+  const requests = getAllAccountRequests();
+  const filtered = requests.filter((r) => r.userId !== userId && r.userId?.trim().toLowerCase() !== userId.trim().toLowerCase());
+  if (filtered.length < requests.length) {
+    saveAllAccountRequests(filtered);
   }
 }
 

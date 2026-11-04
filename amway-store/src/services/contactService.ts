@@ -63,8 +63,10 @@ export function updateContactSettings(updates: Partial<ContactSettings>): Contac
   const filePath = getContactFilePath();
   try {
     atomicWriteJson(filePath, updated);
-  } catch (err) {
-    console.error('Error saving contact_settings.json:', err);
+  } catch (err: any) {
+    if (err?.code !== 'EROFS' && err?.code !== 'EACCES') {
+      console.error('Error saving contact_settings.json:', err);
+    }
   }
 
   return updated;

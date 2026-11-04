@@ -135,8 +135,10 @@ export function saveGlobalCategories(categories: GlobalCategory[]): void {
   const filePath = getCategoriesFilePath();
   try {
     atomicWriteJson(filePath, inMemoryCategories);
-  } catch (e) {
-    console.error('[CategoryService] Error saving categories.json:', e);
+  } catch (e: any) {
+    if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
+      console.error('[CategoryService] Error saving categories.json:', e);
+    }
   }
 }
 
