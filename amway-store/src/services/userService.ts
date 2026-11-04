@@ -4,15 +4,17 @@ import { UserAccount } from '../types/user';
 import { CartItem } from '../store/useCartStore';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
 
+declare global {
+  var __nsquare_users_cache__: UserAccount[] | undefined;
+}
+
 function getUsersFilePath(): string {
   return getDataFilePath('users.json');
 }
 
-let memoryUsers: UserAccount[] | null = null;
-
-export function getAllUsers(): UserAccount[] {
-  if (memoryUsers) {
-    return memoryUsers;
+export function getAllUsers(forceReload: boolean = false): UserAccount[] {
+  if (!forceReload && globalThis.__nsquare_users_cache__) {
+    return globalThis.__nsquare_users_cache__;
   }
   const filePath = getUsersFilePath();
   if (fs.existsSync(filePath)) {
@@ -20,19 +22,19 @@ export function getAllUsers(): UserAccount[] {
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
-        memoryUsers = parsed;
-        return memoryUsers;
+        globalThis.__nsquare_users_cache__ = parsed;
+        return globalThis.__nsquare_users_cache__;
       }
     } catch (e) {
       console.error('[UserService] Error reading users.json:', e);
     }
   }
-  memoryUsers = [];
-  return memoryUsers;
+  globalThis.__nsquare_users_cache__ = [];
+  return globalThis.__nsquare_users_cache__;
 }
 
 export function saveAllUsers(users: UserAccount[]): void {
-  memoryUsers = users;
+  globalThis.__nsquare_users_cache__ = [...users];
   const filePath = getUsersFilePath();
   try {
     atomicWriteJson(filePath, users);

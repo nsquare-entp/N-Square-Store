@@ -22,7 +22,7 @@ export default async function ProductGalleryPage({ params }: ProductGalleryPageP
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white text-xs">
+        <div className="min-h-screen bg-white flex items-center justify-center text-slate-600 text-xs font-semibold">
           Loading Packaging Visualizer...
         </div>
       }

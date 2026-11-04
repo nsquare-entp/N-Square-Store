@@ -404,6 +404,37 @@ export default function CustomerDetailPage() {
     }
   };
 
+  // Delete Customer Account
+  const handleDeleteUser = async () => {
+    if (!user) return;
+    if (
+      !confirm(
+        `Are you sure you want to permanently delete customer account "${user.name}" (${user.id})? This action cannot be undone.`
+      )
+    ) {
+      return;
+    }
+    try {
+      setIsSubmitting(true);
+      const res = await adminFetch(`/api/users?id=${user.id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('Customer account permanently deleted.');
+        setTimeout(() => {
+          router.push('/admin/customers');
+        }, 600);
+      } else {
+        alert(data.error || 'Failed to delete customer');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete customer');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Save Edited Profile
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -747,6 +778,16 @@ export default function CustomerDetailPage() {
                     }`}
                   >
                     {user.status === 'ACTIVE' ? 'Suspend Account' : 'Activate Account'}
+                  </button>
+
+                  <button
+                    onClick={handleDeleteUser}
+                    disabled={isSubmitting}
+                    className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition-colors cursor-pointer border border-rose-200 flex items-center gap-1.5"
+                    title="Permanently Delete Customer Account"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Delete Account</span>
                   </button>
                 </div>
               </div>

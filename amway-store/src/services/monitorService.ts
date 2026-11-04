@@ -122,8 +122,10 @@ export function saveMonitorData() {
   try {
     const monitorFile = getMonitorFilePath();
     atomicWriteJson(monitorFile, memoryData);
-  } catch (err) {
-    console.error('[MonitorService] Error saving monitor file:', err);
+  } catch (err: any) {
+    if (err?.code !== 'EROFS' && err?.code !== 'EACCES') {
+      console.warn('[MonitorService] Note: monitor state write deferred:', err?.message || err);
+    }
   }
 }
 
@@ -792,8 +794,15 @@ declare global {
 }
 
 export function initMonitorScheduler() {
-  // In development mode or during static site production build, do not run background scrapers
-  if (process.env.NODE_ENV === 'development' || process.env.NEXT_PHASE === 'phase-production-build') {
+  // In development mode, static build, or serverless environments (Vercel/Lambda), do not run background scrapers
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NEXT_PHASE === 'phase-production-build' ||
+    process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.LAMBDA_TASK_ROOT ||
+    process.env.NETLIFY
+  ) {
     return;
   }
 

@@ -84,17 +84,28 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const { id } = await request.json();
+    const url = new URL(request.url);
+    let id = url.searchParams.get('id');
+
     if (!id) {
-      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+      try {
+        const body = await request.json();
+        id = body?.id;
+      } catch (e) {
+        // Body was empty or not json
+      }
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: 'User ID is required (via ?id= or JSON body)' }, { status: 400 });
     }
 
     const success = deleteUser(id);
     if (!success) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json({ error: 'User not found or already deleted' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, message: `User ${id} deleted` });
+    return NextResponse.json({ success: true, message: `User ${id} permanently deleted` });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Failed to delete user' }, { status: 500 });
   }

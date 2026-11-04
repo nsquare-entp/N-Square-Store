@@ -16,9 +16,11 @@ import {
   AlertCircle,
   Search,
   Users,
+  Trash2,
 } from 'lucide-react';
 import { UserAccount, CustomerOrder, AccountUpdateRequest } from '../../types/user';
 import { getWhatsAppContactUrl } from '../../config/social';
+import { adminFetch } from '../../utils/adminFetch';
 
 interface CustomerManagementStudioProps {
   users: UserAccount[];
@@ -29,6 +31,7 @@ interface CustomerManagementStudioProps {
   onOpenEditUser: (user: UserAccount) => void;
   onToggleUserStatus: (user: UserAccount) => void;
   onSelectUser?: (user: UserAccount) => void;
+  onDeleteUser?: (user: UserAccount) => void;
 }
 
 export default function CustomerManagementStudio({
@@ -40,10 +43,34 @@ export default function CustomerManagementStudio({
   onOpenEditUser,
   onToggleUserStatus,
   onSelectUser,
+  onDeleteUser,
 }: CustomerManagementStudioProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTag, setFilterTag] = useState<'ALL' | 'NEEDS_ACTION' | 'ACTIVE' | 'VIP' | 'SUSPENDED'>('ALL');
+
+  const handleDirectDelete = async (u: UserAccount) => {
+    if (
+      !confirm(
+        `Are you sure you want to permanently delete customer account "${u.name}" (${u.id})? This will revoke their portal access.`
+      )
+    ) {
+      return;
+    }
+    try {
+      const res = await adminFetch(`/api/users?id=${u.id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        onRefresh();
+      } else {
+        alert(data.error || 'Failed to delete customer');
+      }
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete customer');
+    }
+  };
 
   // Group orders & requests by user
   const ordersByUser = useMemo(() => {
@@ -451,6 +478,22 @@ export default function CustomerManagementStudio({
                       title={u.status === 'ACTIVE' ? 'Suspend Account' : 'Activate Account'}
                     >
                       {u.status === 'ACTIVE' ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+                    </button>
+
+                    {/* Quick Delete Customer */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onDeleteUser) {
+                          onDeleteUser(u);
+                        } else {
+                          handleDirectDelete(u);
+                        }
+                      }}
+                      className="p-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl transition-colors border border-rose-200 cursor-pointer flex items-center justify-center shrink-0"
+                      title="Permanently Delete Customer Account"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
 

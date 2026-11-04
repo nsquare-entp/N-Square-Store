@@ -3668,6 +3668,7 @@ export default function AdminPage() {
             onSelectUser={(u) => {
               router.push(`/admin/customers/${u.id}`);
             }}
+            onDeleteUser={(u) => handleDeleteUser(u.id, u.name)}
           />
         </div>
       )}
