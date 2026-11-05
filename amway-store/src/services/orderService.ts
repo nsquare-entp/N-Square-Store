@@ -3,15 +3,18 @@ import path from 'path';
 import { CustomerOrder } from '../types/user';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
 
+declare global {
+  // eslint-disable-next-line no-var
+  var __nsquare_orders_cache__: CustomerOrder[] | undefined;
+}
+
 function getOrdersFilePath(): string {
   return getDataFilePath('orders.json');
 }
 
-let memoryOrders: CustomerOrder[] | null = null;
-
-export function getAllOrders(): CustomerOrder[] {
-  if (memoryOrders) {
-    return memoryOrders;
+export function getAllOrders(forceReload = false): CustomerOrder[] {
+  if (!forceReload && globalThis.__nsquare_orders_cache__) {
+    return globalThis.__nsquare_orders_cache__;
   }
   const filePath = getOrdersFilePath();
   if (fs.existsSync(filePath)) {
@@ -19,19 +22,19 @@ export function getAllOrders(): CustomerOrder[] {
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
-        memoryOrders = parsed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        return memoryOrders;
+        globalThis.__nsquare_orders_cache__ = parsed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        return globalThis.__nsquare_orders_cache__;
       }
     } catch (e) {
       console.error('[OrderService] Error reading orders.json:', e);
     }
   }
-  memoryOrders = [];
-  return memoryOrders;
+  globalThis.__nsquare_orders_cache__ = [];
+  return globalThis.__nsquare_orders_cache__;
 }
 
 export function saveAllOrders(orders: CustomerOrder[]): void {
-  memoryOrders = orders;
+  globalThis.__nsquare_orders_cache__ = orders;
   const filePath = getOrdersFilePath();
   try {
     atomicWriteJson(filePath, orders);

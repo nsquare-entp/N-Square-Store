@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { adminFetch } from '../../utils/adminFetch';
 import { ContactSettings } from '../../services/contactService';
+import { safeLocalStorage } from '../../utils/safeStorage';
 
 interface ContactSettingsModalProps {
   isOpen: boolean;
@@ -14,16 +15,18 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<ContactSettings>({
-    storeName: 'N-Square Store',
-    tagline: 'Amway Direct Selling Partner',
+    storeName: 'N-Square Official',
+    tagline: 'Authorized Amway Direct Selling Partner • Evidence-Based Wellness',
     whatsappNumber: '919876543210',
     whatsappDisplayText: '+91 98765 43210',
-    instagramUrl: 'https://www.instagram.com/nsquarestore',
-    instagramHandle: '@nsquarestore',
-    linkedinUrl: 'https://www.linkedin.com/company/nsquarestore',
-    linkedinHandle: 'N-Square Store',
+    instagramUrl: 'https://www.instagram.com/n_square_official/',
+    instagramHandle: '@n_square_official',
+    linkedinUrl: 'https://www.linkedin.com/company/n-square-official/',
+    linkedinHandle: 'N-Square Official',
+    youtubeUrl: 'https://www.youtube.com/@N_Square_Official',
+    youtubeHandle: '@N_Square_Official',
     supportPhone: '+91 98765 43210',
-    supportEmail: 'care@nsquarestore.com',
+    supportEmail: 'care@nsquareofficial.com',
     officeAddress: 'Authorized Amway Direct Seller Regional Fulfillment, Bengaluru, Karnataka, India',
     supportHours: 'Monday – Sunday: 9:00 AM – 9:00 PM IST',
     welcomeMessage: 'Have questions about authentic Amway nutrition, wellness, beauty, or personal care essentials? Connect with our dedicated team across any of our official channels.',
@@ -31,12 +34,23 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
 
   useEffect(() => {
     if (isOpen) {
+      // 1. Immediately prefill from safe local storage if cached
+      const cached = safeLocalStorage.getItem('nsquare_contact_settings');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          setFormData((prev) => ({ ...prev, ...parsed }));
+        } catch {}
+      }
+
+      // 2. Fetch fresh from server
       setLoading(true);
-      fetch('/api/contact')
+      fetch('/api/contact', { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
           if (data && data.contact) {
-            setFormData(data.contact);
+            setFormData((prev) => ({ ...prev, ...data.contact }));
+            safeLocalStorage.setItem('nsquare_contact_settings', JSON.stringify(data.contact));
           }
         })
         .catch((err) => console.error('Failed to load contact settings:', err))
@@ -57,9 +71,19 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        // Cache to safe browser storage
+        safeLocalStorage.setItem('nsquare_contact_settings', JSON.stringify(data.contact));
+
+        // Dispatch in-window event for instant reactive UI update
         if (typeof window !== 'undefined') {
-          localStorage.setItem('nsquare_contact_settings', JSON.stringify(data.contact));
+          window.dispatchEvent(new CustomEvent('nsquare_contact_updated', { detail: data.contact }));
+          try {
+            const bc = new BroadcastChannel('nsquare_updates');
+            bc.postMessage({ type: 'contact_updated', contact: data.contact });
+            bc.close();
+          } catch {}
         }
+
         if (onSaved) onSaved(data.contact);
         alert('Store contact settings updated successfully!');
         onClose();
@@ -75,7 +99,7 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/70 backdrop-blur-sm animate-fadeInOverlay overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
+      <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Modal Header */}
         <div className="bg-gradient-to-r from-teal-900 to-emerald-900 text-white px-6 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
@@ -83,7 +107,7 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
             <div>
               <h3 className="font-black text-sm sm:text-base">Edit Store Contact &amp; Social Channels</h3>
               <p className="text-[11px] text-teal-200">
-                Update dynamic phone numbers, WhatsApp, Instagram, LinkedIn, and operating hours across the storefront.
+                Update dynamic phone numbers, WhatsApp, YouTube, Instagram, LinkedIn, and operating hours across the storefront.
               </p>
             </div>
           </div>
@@ -158,8 +182,39 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
               </div>
             </div>
 
-            {/* Social Channels: Instagram & LinkedIn */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Social Channels: YouTube, Instagram & LinkedIn */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* YouTube Channel */}
+              <div className="bg-red-50/60 p-3.5 rounded-2xl border border-red-200/80 space-y-2">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-red-900 block flex items-center gap-1">
+                  <span>▶️</span>
+                  <span>YouTube Channel</span>
+                </span>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Channel URL</label>
+                  <input
+                    type="url"
+                    value={formData.youtubeUrl || ''}
+                    onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
+                    placeholder="https://www.youtube.com/@N_Square_Official"
+                    className="w-full px-2.5 py-1.5 bg-white border border-red-200 rounded-lg text-xs"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-0.5">Channel Handle</label>
+                  <input
+                    type="text"
+                    value={formData.youtubeHandle || ''}
+                    onChange={(e) => setFormData({ ...formData, youtubeHandle: e.target.value })}
+                    placeholder="@N_Square_Official"
+                    className="w-full px-2.5 py-1.5 bg-white border border-red-200 rounded-lg text-xs font-mono"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Instagram Channel */}
               <div className="bg-purple-50/60 p-3.5 rounded-2xl border border-purple-200/80 space-y-2">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-900 block flex items-center gap-1">
                   <span>📸</span>
@@ -171,6 +226,7 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
                     type="url"
                     value={formData.instagramUrl}
                     onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                    placeholder="https://www.instagram.com/n_square_official/"
                     className="w-full px-2.5 py-1.5 bg-white border border-purple-200 rounded-lg text-xs"
                     required
                   />
@@ -181,12 +237,14 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
                     type="text"
                     value={formData.instagramHandle}
                     onChange={(e) => setFormData({ ...formData, instagramHandle: e.target.value })}
+                    placeholder="@n_square_official"
                     className="w-full px-2.5 py-1.5 bg-white border border-purple-200 rounded-lg text-xs font-mono"
                     required
                   />
                 </div>
               </div>
 
+              {/* LinkedIn Channel */}
               <div className="bg-blue-50/60 p-3.5 rounded-2xl border border-blue-200/80 space-y-2">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-900 block flex items-center gap-1">
                   <span>💼</span>
@@ -198,6 +256,7 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
                     type="url"
                     value={formData.linkedinUrl}
                     onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
+                    placeholder="https://www.linkedin.com/company/n-square-official/"
                     className="w-full px-2.5 py-1.5 bg-white border border-blue-200 rounded-lg text-xs"
                     required
                   />
@@ -208,6 +267,7 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
                     type="text"
                     value={formData.linkedinHandle}
                     onChange={(e) => setFormData({ ...formData, linkedinHandle: e.target.value })}
+                    placeholder="N-Square Official"
                     className="w-full px-2.5 py-1.5 bg-white border border-blue-200 rounded-lg text-xs"
                     required
                   />
@@ -298,4 +358,3 @@ export default function ContactSettingsModal({ isOpen, onClose, onSaved }: Conta
     </div>
   );
 }
-

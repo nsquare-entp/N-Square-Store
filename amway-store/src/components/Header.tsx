@@ -44,10 +44,10 @@ export default function Header() {
             </div>
             <div className="flex flex-col min-w-0">
               <span className="font-extrabold text-base sm:text-lg md:text-xl tracking-tight text-slate-950 truncate">
-                N-Square <span className="text-teal-700">Store</span>
+                N-Square <span className="text-teal-700">Official</span>
               </span>
               <span className="text-[10px] sm:text-xs text-slate-500 font-medium tracking-tight truncate">
-                Amway Direct selling
+                Authorized Amway Partner
               </span>
             </div>
           </Link>

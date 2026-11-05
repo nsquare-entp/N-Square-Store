@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { useAuthStore } from './useAuthStore';
+import { safeZustandStorage } from '../utils/safeStorage';
 
 export interface CartItem {
   id: string;
@@ -134,7 +135,7 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'nsquare_customer_cart',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => safeZustandStorage),
     }
   )
 );

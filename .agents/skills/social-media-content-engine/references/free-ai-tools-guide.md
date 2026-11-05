@@ -62,3 +62,4 @@ As requested, here is a curated guide of **100% free or generous free-tier AI to
   3. Set each slide duration to 5-7 seconds with subtle "Ken Burns" pan/zoom transitions.
   4. Click **Auto Captions** -> Generates synchronized animated captions on the screen.
   5. Export 1080x1920 60fps video ready for YouTube Shorts and Instagram Reels!
+

@@ -1,27 +1,29 @@
 /**
  * Central Social and Communication Channels Configuration
- * N-Square Store • Amway Direct Selling Partner
+ * N-Square Official • Authorized Amway Direct Selling Partner
  */
 
 const DEFAULT_SOCIAL = {
-  storeName: 'N-Square Store',
-  tagline: 'Amway Direct Selling Partner',
+  storeName: 'N-Square Official',
+  tagline: 'Authorized Amway Direct Selling Partner • Evidence-Based Wellness',
   whatsappNumber: '919876543210',
   whatsappDisplayText: '+91 98765 43210',
   whatsappUrl: 'https://wa.me/919876543210',
-  instagramUrl: 'https://www.instagram.com/nsquarestore',
-  instagramHandle: '@nsquarestore',
-  linkedinUrl: 'https://www.linkedin.com/company/nsquarestore',
-  linkedinHandle: 'N-Square Store',
-  supportEmail: 'care@nsquarestore.com',
+  instagramUrl: 'https://www.instagram.com/n_square_official/',
+  instagramHandle: '@n_square_official',
+  linkedinUrl: 'https://www.linkedin.com/company/n-square-official/',
+  linkedinHandle: 'N-Square Official',
+  youtubeUrl: 'https://www.youtube.com/@N_Square_Official',
+  youtubeHandle: '@N_Square_Official',
+  supportEmail: 'care@nsquareofficial.com',
   supportPhone: '+91 98765 43210',
   hours: 'Mon - Sun: 9:00 AM - 9:00 PM IST',
 };
 
 function getStoredSocial(): typeof DEFAULT_SOCIAL {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
     try {
-      const stored = localStorage.getItem('nsquare_contact_settings');
+      const stored = window.localStorage.getItem('nsquare_contact_settings');
       if (stored) {
         const parsed = JSON.parse(stored);
         const waNum = (parsed.whatsappNumber || DEFAULT_SOCIAL.whatsappNumber).replace(/\D/g, '');
@@ -36,6 +38,8 @@ function getStoredSocial(): typeof DEFAULT_SOCIAL {
           instagramHandle: parsed.instagramHandle || DEFAULT_SOCIAL.instagramHandle,
           linkedinUrl: parsed.linkedinUrl || DEFAULT_SOCIAL.linkedinUrl,
           linkedinHandle: parsed.linkedinHandle || DEFAULT_SOCIAL.linkedinHandle,
+          youtubeUrl: parsed.youtubeUrl || DEFAULT_SOCIAL.youtubeUrl,
+          youtubeHandle: parsed.youtubeHandle || DEFAULT_SOCIAL.youtubeHandle,
           supportEmail: parsed.supportEmail || DEFAULT_SOCIAL.supportEmail,
           supportPhone: parsed.supportPhone || DEFAULT_SOCIAL.supportPhone,
           hours: parsed.supportHours || DEFAULT_SOCIAL.hours,
@@ -56,13 +60,20 @@ export const SOCIAL_LINKS = new Proxy(DEFAULT_SOCIAL, {
 });
 
 /**
+ * Returns the active YouTube channel URL
+ */
+export function getYouTubeChannelUrl(): string {
+  return SOCIAL_LINKS.youtubeUrl || 'https://www.youtube.com/@N_Square_Official';
+}
+
+/**
  * Generates WhatsApp URL with prefilled consultation or order inquiry text
  */
 export function getWhatsAppContactUrl(message?: string, customNumber?: string): string {
   const number = customNumber || SOCIAL_LINKS.whatsappNumber;
   const text = message
     ? encodeURIComponent(message)
-    : encodeURIComponent('Hi N-Square Store, I would like to consult with an Amway specialist regarding authentic nutrition, wellness, and personal care products.');
+    : encodeURIComponent('Hi N-Square Official, I would like to consult with an Amway specialist regarding authentic nutrition, wellness, and personal care products.');
   return `https://wa.me/${number}?text=${text}`;
 }
 
@@ -76,8 +87,8 @@ export function getWhatsAppFirstOrderUrl(
   customNumber?: string
 ): string {
   const number = customNumber || SOCIAL_LINKS.whatsappNumber;
-  let lines = [
-    `*NEW CUSTOMER ORDER REQUEST - N-SQUARE STORE*`,
+  const lines = [
+    `*NEW CUSTOMER ORDER REQUEST - N-SQUARE OFFICIAL*`,
     `Customer: ${customerName || 'New Customer'}`,
     `Mobile: ${customerMobile || 'Direct WhatsApp'}`,
     ``,

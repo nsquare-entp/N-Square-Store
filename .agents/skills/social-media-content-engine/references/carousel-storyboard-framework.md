@@ -91,3 +91,4 @@ Closes the loop by inviting personal engagement:
   - Official Web Store: `nsquarestore.com` (Direct authentic dispatch)
   - Profile Bio / DM Invite.
 - **Trust Badges:** 100% Authentic Guarantee, Personalized Consultation, Direct Doorstep Delivery across India.
+

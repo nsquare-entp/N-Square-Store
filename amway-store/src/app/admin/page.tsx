@@ -370,7 +370,12 @@ export default function AdminPage() {
     try {
       const res = await adminFetch('/api/categories');
       const data = await res.json();
-      if (data.categories) setCategories(data.categories);
+      if (data.categories) {
+        setCategories(data.categories);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('nsquare_categories_updated', { detail: data.categories }));
+        }
+      }
     } catch (e) {
       console.error('Failed to load categories:', e);
     } finally {

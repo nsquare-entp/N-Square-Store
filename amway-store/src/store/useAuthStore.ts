@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { UserAccount } from '../types/user';
+import { safeZustandStorage, safeLocalStorage } from '../utils/safeStorage';
 
 interface AuthStore {
   user: UserAccount | null;
@@ -22,9 +23,7 @@ export const useAuthStore = create<AuthStore>()(
 
       logout: () => {
         set({ user: null, isAuthenticated: false });
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('amway_auth_status');
-        }
+        safeLocalStorage.removeItem('amway_auth_status');
       },
 
       updateUserCart: (cart) => {
@@ -43,7 +42,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: 'nsquare_customer_auth',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => safeZustandStorage),
     }
   )
 );

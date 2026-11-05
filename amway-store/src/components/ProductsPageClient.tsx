@@ -32,7 +32,7 @@ export default function ProductsPageClient({
 }: ProductsPageClientProps) {
   const router = useRouter();
   const [products] = useState<CatalogProduct[]>(initialProducts || []);
-  const [categories] = useState<GlobalCategory[]>(initialCategories);
+  const [categories, setCategories] = useState<GlobalCategory[]>(initialCategories);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedParentCategory, setSelectedParentCategory] = useState<string>('all');
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('all');
@@ -153,6 +153,27 @@ export default function ProductsPageClient({
       })
       .catch((e) => console.log('Stock fetch notice:', e));
   }, [parentCategories, categories]);
+
+  // Dynamic categories revalidation and sync
+  useEffect(() => {
+    fetch('/api/categories', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Array.isArray(data.categories) && data.categories.length > 0) {
+          setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+
+    const handleCategoriesUpdate = (e: Event) => {
+      const custom = e as CustomEvent<GlobalCategory[]>;
+      if (custom.detail && Array.isArray(custom.detail)) {
+        setCategories(custom.detail);
+      }
+    };
+    window.addEventListener('nsquare_categories_updated', handleCategoriesUpdate);
+    return () => window.removeEventListener('nsquare_categories_updated', handleCategoriesUpdate);
+  }, []);
 
   // Persist filter & search state changes to session
   useEffect(() => {

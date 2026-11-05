@@ -14,27 +14,30 @@ function getBannersFilePath(): string {
   return getDataFilePath('banners.json');
 }
 
-let memoryBanners: BannerItem[] | null = null;
+declare global {
+  // eslint-disable-next-line no-var
+  var __nsquare_banners_cache__: BannerItem[] | undefined;
+}
 
 /**
  * Reads all active promotional banners.
  * Returns an empty array if no banners have been uploaded.
  */
-export function getBanners(): BannerItem[] {
-  if (memoryBanners) {
-    return memoryBanners;
+export function getBanners(forceReload: boolean = false): BannerItem[] {
+  if (!forceReload && globalThis.__nsquare_banners_cache__) {
+    return globalThis.__nsquare_banners_cache__;
   }
   try {
     const bannersFile = getBannersFilePath();
     if (!fs.existsSync(bannersFile)) {
       atomicWriteJson(bannersFile, []);
-      memoryBanners = [];
-      return memoryBanners;
+      globalThis.__nsquare_banners_cache__ = [];
+      return globalThis.__nsquare_banners_cache__;
     }
     const content = fs.readFileSync(bannersFile, 'utf-8');
     const parsed = JSON.parse(content);
-    memoryBanners = Array.isArray(parsed) ? parsed : [];
-    return memoryBanners;
+    globalThis.__nsquare_banners_cache__ = Array.isArray(parsed) ? parsed : [];
+    return globalThis.__nsquare_banners_cache__;
   } catch (err) {
     console.error('Error reading banners.json:', err);
     return [];
@@ -45,7 +48,7 @@ export function getBanners(): BannerItem[] {
  * Saves banners array to disk.
  */
 export function saveBanners(banners: BannerItem[]): boolean {
-  memoryBanners = banners;
+  globalThis.__nsquare_banners_cache__ = banners;
   try {
     const bannersFile = getBannersFilePath();
     atomicWriteJson(bannersFile, banners);

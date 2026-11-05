@@ -104,11 +104,14 @@ function getCategoriesFilePath(): string {
   return getDataFilePath('categories.json');
 }
 
-let inMemoryCategories: GlobalCategory[] | null = null;
+declare global {
+  // eslint-disable-next-line no-var
+  var __nsquare_categories_cache__: GlobalCategory[] | undefined;
+}
 
-export function getGlobalCategories(): GlobalCategory[] {
-  if (inMemoryCategories) {
-    return inMemoryCategories;
+export function getGlobalCategories(forceReload: boolean = false): GlobalCategory[] {
+  if (!forceReload && globalThis.__nsquare_categories_cache__) {
+    return globalThis.__nsquare_categories_cache__;
   }
 
   const filePath = getCategoriesFilePath();
@@ -117,24 +120,24 @@ export function getGlobalCategories(): GlobalCategory[] {
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        inMemoryCategories = parsed.sort((a, b) => (a.order || 0) - (b.order || 0));
-        return inMemoryCategories;
+        globalThis.__nsquare_categories_cache__ = parsed.sort((a, b) => (a.order || 0) - (b.order || 0));
+        return globalThis.__nsquare_categories_cache__;
       }
     } catch (e) {
       console.error('[CategoryService] Error reading categories.json:', e);
     }
   }
 
-  inMemoryCategories = DEFAULT_CATEGORIES;
-  saveGlobalCategories(inMemoryCategories);
-  return inMemoryCategories;
+  globalThis.__nsquare_categories_cache__ = DEFAULT_CATEGORIES;
+  saveGlobalCategories(globalThis.__nsquare_categories_cache__);
+  return globalThis.__nsquare_categories_cache__;
 }
 
 export function saveGlobalCategories(categories: GlobalCategory[]): void {
-  inMemoryCategories = categories.sort((a, b) => (a.order || 0) - (b.order || 0));
+  globalThis.__nsquare_categories_cache__ = categories.sort((a, b) => (a.order || 0) - (b.order || 0));
   const filePath = getCategoriesFilePath();
   try {
-    atomicWriteJson(filePath, inMemoryCategories);
+    atomicWriteJson(filePath, globalThis.__nsquare_categories_cache__);
   } catch (e: any) {
     if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
       console.error('[CategoryService] Error saving categories.json:', e);

@@ -504,15 +504,27 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <p className="font-extrabold text-slate-900">Need clarification about this product?</p>
           <p className="text-[11px] text-slate-500">Connect with an Amway wellness specialist for dosage, routine advice, or order inquiries.</p>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap">
           <a
-            href={getWhatsAppContactUrl(`Hi N-Square Store, I would like guidance on ${product.name} (${currentVariant.weight}):`)}
+            href={getWhatsAppContactUrl(`Hi N-Square Official, I would like guidance on ${product.name} (${currentVariant.weight}):`)}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-2xs transition-all"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             <span>WhatsApp</span>
+          </a>
+          <a
+            href={SOCIAL_LINKS.youtubeUrl || 'https://www.youtube.com/@N_Square_Official'}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#cc0000] hover:bg-[#b30000] text-white font-bold text-xs shadow-2xs transition-all"
+            title="Watch on YouTube"
+          >
+            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>YouTube</span>
           </a>
           <a
             href={SOCIAL_LINKS.instagramUrl}

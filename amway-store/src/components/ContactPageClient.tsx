@@ -1,22 +1,70 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MessageSquare, Phone, Mail, MapPin, Clock, Send, ChevronRight, ChevronDown } from 'lucide-react';
 import { ContactSettings } from '../services/contactService';
 import { getWhatsAppContactUrl } from '../config/social';
+import { safeLocalStorage } from '../utils/safeStorage';
 
 interface ContactPageClientProps {
   initialContact: ContactSettings;
 }
 
 export default function ContactPageClient({ initialContact }: ContactPageClientProps) {
-  const [contact] = useState<ContactSettings>(initialContact);
+  const [contact, setContact] = useState<ContactSettings>(initialContact);
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [topic, setTopic] = useState('Nutrition & Wellness Consultation');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    // 1. Check local storage cache on mount for instant client hydration
+    const cached = safeLocalStorage.getItem('nsquare_contact_settings');
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        setContact((prev) => ({ ...prev, ...parsed }));
+      } catch {}
+    }
+
+    // 2. Fetch fresh contact settings from API (no-store cache)
+    fetch('/api/contact', { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.contact) {
+          setContact((prev) => ({ ...prev, ...data.contact }));
+          safeLocalStorage.setItem('nsquare_contact_settings', JSON.stringify(data.contact));
+        }
+      })
+      .catch((err) => console.log('Contact refresh notice:', err));
+
+    // 3. Listen for real-time contact updates within the window
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<ContactSettings>;
+      if (customEvent.detail) {
+        setContact(customEvent.detail);
+      }
+    };
+    window.addEventListener('nsquare_contact_updated', handleUpdate);
+
+    // 4. Listen on BroadcastChannel for multi-tab updates
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel('nsquare_updates');
+      bc.onmessage = (event) => {
+        if (event.data?.type === 'contact_updated' && event.data.contact) {
+          setContact(event.data.contact);
+        }
+      };
+    } catch {}
+
+    return () => {
+      window.removeEventListener('nsquare_contact_updated', handleUpdate);
+      if (bc) bc.close();
+    };
+  }, []);
 
   const handleSubmitInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +74,7 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
     }
 
     const formattedMessage = [
-      `*CUSTOMER INQUIRY - N-SQUARE STORE*`,
+      `*CUSTOMER INQUIRY - ${contact.storeName.toUpperCase()}*`,
       `Name: ${name || 'Customer'}`,
       `Mobile: ${mobile}`,
       `Topic: ${topic}`,
@@ -60,7 +108,7 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
         <div className="max-w-2xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-200 text-xs font-bold uppercase tracking-wider">
             <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-            <span>N-Square Store • Direct Support</span>
+            <span>{contact.storeName} • Direct Support</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -78,7 +126,7 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
         </div>
       </div>
 
-      {/* 2. Direct Channels Action Grid (WhatsApp, Instagram, LinkedIn, Phone, Email, Office) */}
+      {/* 2. Direct Channels Action Grid (WhatsApp, YouTube, Instagram, LinkedIn, Phone, Email, Office) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {/* WhatsApp Card */}
         <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group">
@@ -108,6 +156,36 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
           </a>
         </div>
 
+        {/* YouTube Channel Card */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group">
+          <div className="flex items-start gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 text-[#ff0000] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+              <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </div>
+            <div>
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-red-800 block">
+                Video Regimens &amp; Science
+              </span>
+              <h2 className="text-base font-black text-slate-900 mt-0.5">YouTube Official</h2>
+              <p className="text-xs text-slate-500 mt-0.5">{contact.youtubeHandle || '@N_Square_Official'}</p>
+            </div>
+          </div>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Watch verified Nutrilite clinical studies, multi-vitamin deep dives, and supplement regimens in English.
+          </p>
+          <a
+            href={contact.youtubeUrl || 'https://www.youtube.com/@N_Square_Official'}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full py-2.5 px-4 bg-[#cc0000] hover:bg-[#b30000] text-white font-bold text-xs rounded-xl shadow-xs transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>Watch on YouTube</span>
+            <ChevronRight className="w-4 h-4" />
+          </a>
+        </div>
+
         {/* Instagram Card */}
         <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group">
           <div className="flex items-start gap-3.5">
@@ -127,7 +205,7 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
             </div>
           </div>
           <p className="text-xs text-slate-600 leading-relaxed">
-            Follow our daily health tips, Nutrilite wellness reels, Artistry skincare regimens, and send DMs.
+            Follow our daily health tips, Nutrilite wellness carousels, Artistry skincare regimens, and send DMs.
           </p>
           <a
             href={contact.instagramUrl}
@@ -223,7 +301,7 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
         </div>
 
         {/* Fulfillment Center Card */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group lg:col-span-3">
           <div className="flex items-start gap-3.5">
             <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
               <MapPin className="w-6 h-6" />
@@ -258,81 +336,84 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
 
         {submitted ? (
           <div className="p-6 bg-emerald-50 rounded-2xl border border-emerald-300 text-center space-y-2">
-            <span className="text-3xl block">✓</span>
-            <h3 className="text-base font-bold text-emerald-950">Inquiry Launched on WhatsApp</h3>
-            <p className="text-xs text-emerald-800 max-w-md mx-auto">
-              Our Amway wellness specialist has received your inquiry and will respond promptly.
+            <span className="text-2xl">✅</span>
+            <h3 className="font-bold text-emerald-950 text-sm">Consultation Request Transmitted</h3>
+            <p className="text-xs text-emerald-800">
+              Our WhatsApp consultant is ready to answer your questions. If WhatsApp did not open automatically, click below:
             </p>
-            <button
-              onClick={() => setSubmitted(false)}
-              className="text-xs font-bold text-emerald-900 underline pt-2"
+            <a
+              href={getWhatsAppContactUrl(undefined, contact.whatsappNumber)}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer"
             >
-              Send Another Inquiry
-            </button>
+              <span>Open WhatsApp Now</span>
+              <ChevronRight className="w-4 h-4" />
+            </a>
           </div>
         ) : (
-          <form onSubmit={handleSubmitInquiry} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Your Full Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Anand Kumar"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-teal-600 focus:bg-white transition-all"
-                required
-              />
-            </div>
+          <form onSubmit={handleSubmitInquiry} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Your Full Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Ramesh Kumar"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-teal-600 transition-all"
+                />
+              </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">WhatsApp / Phone Number</label>
-              <input
-                type="tel"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-teal-600 focus:bg-white transition-all"
-                required
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-slate-700 mb-1">Consultation Topic</label>
-              <div className="relative">
-                <select
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  className="w-full appearance-none pl-3.5 pr-8 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-teal-600 cursor-pointer"
-                >
-                  <option value="Nutrition & Wellness Consultation">Nutrition &amp; Wellness (Proteins, Daily, Omega, Calcium)</option>
-                  <option value="Weight Management Guidance">Weight Management (BodyKey, Shakes, Fibre)</option>
-                  <option value="Beauty & Skincare Regimen">Beauty &amp; Skincare (Artistry Skin Nutrition)</option>
-                  <option value="Home Living & Personal Care">Home Living &amp; Personal Care (Glister, Satinique, LOC)</option>
-                  <option value="Direct Selling Member Discount Inquiry">Direct Selling Member Discount Inquiry</option>
-                  <option value="Order Tracking / Delivery Inquiry">Existing Order Tracking &amp; Delivery</option>
-                </select>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Mobile Number <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="e.g. 9876543210"
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-teal-600 transition-all"
+                />
               </div>
             </div>
 
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-slate-700 mb-1">Your Message or Health Goal</label>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Inquiry Topic</label>
+              <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-teal-600 transition-all cursor-pointer"
+              >
+                <option value="Nutrition & Wellness Consultation">Nutrition &amp; Foundational Wellness (Nutrilite)</option>
+                <option value="Skincare & Beauty Regimen">Skincare &amp; Anti-Aging Consultation (Artistry)</option>
+                <option value="Personal & Body Care Essentials">Personal &amp; Hair Care (Glister, G&amp;H, Satinique)</option>
+                <option value="Home Living & Cookware">Cookware &amp; Atmosphere Air Treatment</option>
+                <option value="Bulk / Corporate Wellness Order">Bulk Order / Corporate Wellness Package</option>
+                <option value="Order Tracking & Invoice Support">Order Tracking &amp; Official Invoicing</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Your Specific Question or Needs</label>
               <textarea
+                rows={3}
+                placeholder="Tell us what product or health goal you are interested in..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Share your requirements, fitness goals, or any questions..."
-                rows={3}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-teal-600 focus:bg-white transition-all"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:outline-teal-600 transition-all"
               />
             </div>
 
-            <div className="sm:col-span-2 pt-2">
+            <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                className="py-3 px-6 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <MessageSquare className="w-4 h-4 text-white shrink-0" />
-                <span>Send via WhatsApp →</span>
+                <span>Send WhatsApp Consultation Request</span>
+                <Send className="w-3.5 h-3.5" />
               </button>
             </div>
           </form>
@@ -341,4 +422,3 @@ export default function ContactPageClient({ initialContact }: ContactPageClientP
     </div>
   );
 }
-

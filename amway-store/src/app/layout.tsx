@@ -6,8 +6,8 @@ import FloatingChat from '../components/FloatingChat';
 import MobileBottomNav from '../components/MobileBottomNav';
 
 export const metadata = {
-  title: 'N-Square Store | Amway Direct Selling',
-  description: 'Official N-Square Store direct selling store for authentic Amway nutrition, wellness, beauty, and home essentials with direct member discounts.',
+  title: 'N-Square Official | Amway Direct Selling Partner',
+  description: 'Official N-Square Official direct selling portal for authentic Amway nutrition, wellness, beauty, and home essentials with direct member discounts.',
   icons: {
     icon: [
       { url: '/images/logo.png', type: 'image/png' },

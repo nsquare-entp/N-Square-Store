@@ -109,3 +109,4 @@ Deliver tailored metadata for all 3 target networks:
 >    - If the user liked a specific hook or aesthetic, add it to `approvedHooks` or `visualPreferences`.
 >    - Write the updated JSON back to [`resources/learned_patterns.json`](./resources/learned_patterns.json).
 >    - Confirm the update to the user: *"Learned rule saved: [Brief summary]. This will now be applied automatically to all future posts."*
+

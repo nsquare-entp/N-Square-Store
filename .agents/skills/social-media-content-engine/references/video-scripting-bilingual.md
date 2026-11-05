@@ -91,3 +91,4 @@ When generating content for any product, output the script using this exact stru
   - Use Telugu script directly for Indian multilingual models.
   - For English models that support phonetic Telugu, provide clean romanized script (e.g. *"Meeku idi telusa? Manam roju theesukune supplements..."*).
   - Keep sentences under 15 words so the speech cadence remains natural without robotic gasping.
+

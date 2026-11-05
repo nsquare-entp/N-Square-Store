@@ -63,3 +63,4 @@ For every image, generate the prompt using this strict structure:
    - Fresh water micro-droplets, crisp botanical cross-sections, unrefined natural textures, pristine clean packaging.
 4. **Watermark & Clutter Prevention:**
    - Always append negative prompts: `watermark, text, blurry, distorted, low quality, oversaturated, ugly, cartoon, messy background`.
+

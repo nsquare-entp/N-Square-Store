@@ -1,6 +1,16 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-11-05T01:25:00+05:30",
+  "version": "1.1.0",
+  "lastUpdated": "2026-11-05T10:50:00+05:30",
+  "brandProfile": {
+    "officialName": "N-Square Official",
+    "website": "https://nsquarestore.com",
+    "channels": {
+      "youtube": "https://www.youtube.com/@N_Square_Official",
+      "instagram": "https://www.instagram.com/n_square_official/",
+      "linkedin": "https://www.linkedin.com/company/n-square-official/"
+    },
+    "languagePolicy": "English only across official public channels"
+  },
   "approvedHooks": [
     "Do you know this ?",
     "Don't do this / Don't use this in that way ?",
@@ -13,7 +23,7 @@
     "noFakeMedicalClaims": true,
     "creatorRecommendationTone": "Personal, credible, science-backed, warm advisor",
     "callToAction": "Need more clarification ? connect me ->",
-    "websiteDisplay": "N-Square Store (Direct authentic Amway fulfillment)"
+    "websiteDisplay": "N-Square Official (Direct authentic Amway fulfillment)"
   },
   "visualPreferences": {
     "primaryRatio": "4:5 (1080x1350 Instagram carousel standard)",
@@ -22,11 +32,18 @@
     "watermarkPolicy": "Strictly no watermarks, clean commercial-safe outputs"
   },
   "languagePreferences": {
-    "carouselPost": "English (punchy, clean, readable)",
+    "carouselPost": "English (strictly English as per brand rule)",
     "videoVoiceover": [
-      "English (clear, authoritative yet conversational)",
-      "Telugu (natural conversational / వాడుక భాష, engaging, regional trust-building)"
+      "English (authoritative, engaging, conversational)"
     ]
   },
-  "userLearnedRules": []
+  "userLearnedRules": [
+    {
+      "id": "RULE-20261105-01",
+      "timestamp": "2026-11-05T10:50:00+05:30",
+      "instruction": "Channels established as N-Square Official. All content published to YouTube, Instagram, and LinkedIn must be in English only.",
+      "applicationRule": "Generate all textual content, copy, video scripts, descriptions, and metadata exclusively in English for @N_Square_Official handles."
+    }
+  ]
 }
+
