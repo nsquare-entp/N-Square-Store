@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { AlertCircle } from 'lucide-react';
 import { getProductById, syncCatalogFromSupabase } from '../../../services/catalogService';
 import { isSupabaseConfigured } from '../../../utils/supabase';
 import ProductDetailClient from '../../../components/ProductDetailClient';
@@ -78,8 +77,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     return (
       <div className="w-full max-w-2xl mx-auto my-16 bg-white rounded-3xl p-10 text-center border border-slate-200 shadow-sm space-y-4">
-        <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto shadow-2xs">
-          <AlertCircle className="w-8 h-8 text-amber-600" />
+        <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-3xl mx-auto">
+          ⚠️
         </div>
         <h2 className="text-2xl font-black text-slate-900">Clinical Formulation Not Found</h2>
         <p className="text-sm text-slate-600">

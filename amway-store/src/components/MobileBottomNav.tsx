@@ -79,9 +79,8 @@ export default function MobileBottomNav() {
           {/* 1. Home */}
           <Link
             href="/"
-            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-              isActive('/') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${isActive('/') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
+              }`}
           >
             <div className="relative">
               <Home className={`w-5 h-5 ${isActive('/') ? 'text-teal-800 scale-110' : 'text-slate-500'} transition-transform`} />
@@ -92,9 +91,8 @@ export default function MobileBottomNav() {
           {/* 2. Products */}
           <Link
             href="/products"
-            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-              isActive('/products') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${isActive('/products') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
+              }`}
           >
             <div className="relative">
               <ShoppingBag className={`w-5 h-5 ${isActive('/products') ? 'text-teal-800 scale-110' : 'text-slate-500'} transition-transform`} />
@@ -106,9 +104,8 @@ export default function MobileBottomNav() {
           <Link
             href="/cart"
             id="mobile-bottom-cart-btn"
-            className={`relative flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-              isActive('/cart') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
-            }`}
+            className={`relative flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${isActive('/cart') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
+              }`}
             aria-label="View Cart and Billing"
           >
             <div className="relative">
@@ -125,9 +122,8 @@ export default function MobileBottomNav() {
           {/* 4. Customer Account */}
           <Link
             href="/profile"
-            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-              isActive('/profile') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${isActive('/profile') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
+              }`}
           >
             <div className="relative">
               <User className={`w-5 h-5 ${isActive('/profile') ? 'text-teal-800 scale-110' : 'text-slate-500'} transition-transform`} />
@@ -138,9 +134,8 @@ export default function MobileBottomNav() {
           {/* 5. Contact */}
           <Link
             href="/contact"
-            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${
-              isActive('/contact') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
-            }`}
+            className={`flex flex-col items-center justify-center py-1.5 rounded-xl transition-all ${isActive('/contact') ? 'text-teal-900 font-extrabold' : 'text-slate-500 hover:text-teal-700'
+              }`}
           >
             <div className="relative">
               <MessageSquare className={`w-5 h-5 ${isActive('/contact') ? 'text-teal-800 scale-110' : 'text-slate-500'} transition-transform`} />

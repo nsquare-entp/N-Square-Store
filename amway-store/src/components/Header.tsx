@@ -66,11 +66,10 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-1.5 lg:gap-2">
           <Link
             href="/"
-            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
-              isLinkActive('/')
+            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${isLinkActive('/')
                 ? 'bg-teal-50 text-teal-900 font-bold shadow-2xs border border-teal-200/60'
                 : 'text-slate-600 hover:text-teal-800 hover:bg-slate-100/80'
-            }`}
+              }`}
           >
             <Home className="w-4 h-4 text-teal-700 shrink-0" />
             <span>Home</span>
@@ -78,11 +77,10 @@ export default function Header() {
 
           <Link
             href="/products"
-            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
-              isLinkActive('/products')
+            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${isLinkActive('/products')
                 ? 'bg-teal-50 text-teal-900 font-bold shadow-2xs border border-teal-200/60'
                 : 'text-slate-600 hover:text-teal-800 hover:bg-slate-100/80'
-            }`}
+              }`}
           >
             <ShoppingBag className="w-4 h-4 text-teal-700 shrink-0" />
             <span>All Products</span>
@@ -92,11 +90,10 @@ export default function Header() {
           {mounted && isAuthenticated && user && (
             <Link
               href="/profile?tab=orders"
-              className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
-                pathname === '/profile'
+              className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${pathname === '/profile'
                   ? 'bg-teal-50 text-teal-900 font-bold shadow-2xs border border-teal-200/60'
                   : 'text-slate-600 hover:text-teal-800 hover:bg-slate-100/80'
-              }`}
+                }`}
             >
               <Package className="w-4 h-4 text-teal-700 shrink-0" />
               <span>My Orders</span>
@@ -106,11 +103,10 @@ export default function Header() {
           {/* Contact & Consultation */}
           <Link
             href="/contact"
-            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${
-              isLinkActive('/contact')
+            className={`px-3 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 ${isLinkActive('/contact')
                 ? 'bg-teal-50 text-teal-900 font-bold shadow-2xs border border-teal-200/60'
                 : 'text-slate-600 hover:text-teal-800 hover:bg-slate-100/80'
-            }`}
+              }`}
           >
             <MessageSquare className="w-4 h-4 text-teal-700 shrink-0" />
             <span>Contact</span>
