@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight, ChevronDown, Check, Layers, Search, Folder, Tag, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Check, Layers, Search, Folder, Tag, Sparkles, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CategoryIcon from './CategoryIcon';
 import { CatalogProduct } from '../services/catalogService';
@@ -39,6 +39,7 @@ export default function ProductsPageClient({
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'name'>('featured');
   const [showDropdown, setShowDropdown] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [showMobileSubcategories, setShowMobileSubcategories] = useState(false);
   const [stockMap, setStockMap] = useState<Record<string, any>>({});
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -311,9 +312,9 @@ export default function ProductsPageClient({
   }, [parentCategories, selectedParentCategory]);
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto">
-      {/* 1. Page Header with Breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-4">
+    <div className="space-y-3 sm:space-y-6 max-w-7xl mx-auto">
+      {/* 1. Page Header with Breadcrumbs (Desktop only - hidden on mobile to maximize product viewport) */}
+      <div className="hidden md:flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-1">
             <Link href="/" className="hover:text-teal-700 transition-colors">Home</Link>
@@ -332,8 +333,8 @@ export default function ProductsPageClient({
 
       {/* 2. Search Bar at the Top (with Live Autocomplete Dropdown) */}
       <div ref={searchContainerRef} className="relative z-30">
-        <div className="relative flex items-center shadow-xs rounded-2xl">
-          <Search className="w-4 h-4 text-slate-400 absolute left-4 pointer-events-none" />
+        <div className="relative flex items-center shadow-2xs sm:shadow-xs rounded-xl sm:rounded-2xl">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
           <input
             type="text"
             id="product-search-input"
@@ -348,8 +349,8 @@ export default function ProductsPageClient({
             onKeyDown={(e) => {
               if (e.key === 'Escape') setShowDropdown(false);
             }}
-            placeholder="Search by product name, category, or wellness goal (e.g. Protein, Daily, Calcium)..."
-            className="w-full pl-11 pr-24 py-3 sm:py-3.5 bg-white text-slate-900 placeholder-slate-400 rounded-2xl text-base sm:text-sm font-medium shadow-sm border border-slate-200 focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 transition-all"
+            placeholder="Search by product name, category, or goal..."
+            className="w-full pl-10 pr-20 py-2.5 sm:py-3.5 bg-white text-slate-900 placeholder-slate-400 rounded-xl sm:rounded-2xl text-sm font-medium shadow-2xs sm:shadow-sm border border-slate-200 focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/15 transition-all"
           />
           {searchQuery && (
             <button
@@ -357,7 +358,7 @@ export default function ProductsPageClient({
                 setSearchQuery('');
                 setShowDropdown(false);
               }}
-              className="absolute right-2.5 sm:right-3 text-xs font-bold text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-xl transition-colors cursor-pointer"
+              className="absolute right-2 sm:right-3 text-xs font-bold text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-2 py-1 rounded-lg sm:rounded-xl transition-colors cursor-pointer"
               aria-label="Clear search"
             >
               Clear ✕
@@ -428,10 +429,10 @@ export default function ProductsPageClient({
       </div>
 
       {/* 3. Category & Department Filters */}
-      <div id="categories" className="space-y-4">
-        {/* Mobile View: Icon Bubbles Ribbon with Captions (No "All Categories") */}
-        <div className="md:hidden bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs">
-          <div className="flex items-start gap-2.5 overflow-x-auto touch-scroll no-scrollbar py-1 px-0.5">
+      <div id="categories" className="space-y-2 sm:space-y-4">
+        {/* Mobile View: Ultra-Compact Icon Bubbles Ribbon */}
+        <div className="md:hidden bg-white/95 backdrop-blur-md rounded-xl p-1.5 border border-slate-200/90 shadow-2xs">
+          <div className="flex items-start gap-1.5 overflow-x-auto touch-scroll no-scrollbar py-0.5 px-0.5">
             {parentCategories.map((parent) => {
               const isActive = selectedParentCategory === parent.id;
               const subs = subcategoriesMap[parent.id] || [];
@@ -453,26 +454,27 @@ export default function ProductsPageClient({
                   onClick={() => {
                     setSelectedParentCategory(parent.id);
                     setSelectedSubcategory('all');
+                    setShowMobileSubcategories(false);
                   }}
-                  className="flex flex-col items-center justify-start min-w-[62px] max-w-[70px] shrink-0 cursor-pointer group text-center focus:outline-none"
+                  className="flex flex-col items-center justify-start min-w-[56px] max-w-[64px] shrink-0 cursor-pointer group text-center focus:outline-none"
                 >
                   {/* Icon Circle/Bubble */}
                   <div
-                    className={`relative w-13 h-13 rounded-2xl flex items-center justify-center transition-all duration-200 ${
+                    className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 ${
                       isActive
                         ? 'bg-teal-900 text-white shadow-md ring-2 ring-teal-600/40 scale-105'
-                        : 'bg-teal-50/70 hover:bg-teal-100 text-teal-800 border border-slate-200/90 shadow-2xs'
+                        : 'bg-teal-50/70 hover:bg-teal-100 text-teal-800 border border-slate-200/80 shadow-2xs'
                     }`}
                   >
                     <CategoryIcon
                       id={parent.id}
                       name={parent.name}
                       icon={parent.icon}
-                      className="w-6 h-6 shrink-0"
+                      className="w-5 h-5 shrink-0"
                     />
                     {count > 0 && (
                       <span
-                        className={`absolute -top-1 -right-1 text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center border border-white shadow-2xs ${
+                        className={`absolute -top-1 -right-1 text-[9px] font-black rounded-full h-3.5 min-w-[14px] px-0.5 flex items-center justify-center border border-white shadow-2xs ${
                           isActive ? 'bg-amber-400 text-slate-950' : 'bg-teal-800 text-white'
                         }`}
                       >
@@ -483,10 +485,10 @@ export default function ProductsPageClient({
 
                   {/* Caption underneath */}
                   <span
-                    className={`text-xs mt-1.5 leading-tight line-clamp-1 w-full truncate transition-colors ${
+                    className={`text-[11px] mt-1 leading-tight line-clamp-1 w-full truncate transition-colors ${
                       isActive
                         ? 'font-black text-teal-950'
-                        : 'font-semibold text-slate-600 group-hover:text-slate-900'
+                        : 'font-semibold text-slate-600'
                     }`}
                   >
                     {parent.name}
@@ -614,9 +616,9 @@ export default function ProductsPageClient({
           </div>
         </div>
 
-        {/* Tier 2: Subcategories Pills (Only rendered when a specific department is selected) */}
+        {/* Tier 2: Subcategories (Desktop Only - on mobile, collapsed into Filter button below) */}
         {selectedParentCategory !== 'all' && activeSubcategories.length > 0 && (
-          <div className="space-y-2 animate-fadeInOverlay">
+          <div className="hidden md:block space-y-2 animate-fadeInOverlay">
             <div className="flex items-center justify-between px-1">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <Folder className="w-3.5 h-3.5 text-teal-700" />
@@ -688,8 +690,151 @@ export default function ProductsPageClient({
         )}
       </div>
 
-      {/* 4. Toolbar: Results Count & Sorting */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-2xs">
+      {/* 4. Toolbar: Mobile Super-Compact Single Row vs Desktop Full-Width Card */}
+      {/* 4A. Mobile View: Streamlined Count + Filter & Sort Icons */}
+      <div className="sm:hidden flex items-center justify-between gap-2 px-1">
+        <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
+          <span className="text-xs font-bold text-slate-800">
+            <strong className="text-teal-900 font-extrabold">{filteredProducts.length}</strong> Products
+          </span>
+          {selectedSubcategory !== 'all' && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold bg-teal-50 text-teal-900 border border-teal-200 px-2 py-0.5 rounded-full truncate max-w-[130px]">
+              <span className="truncate">{categories.find((c) => c.id === selectedSubcategory)?.name}</span>
+              <button
+                type="button"
+                onClick={() => setSelectedSubcategory('all')}
+                className="text-teal-700 hover:text-rose-600 font-bold ml-0.5 cursor-pointer"
+                title="Remove subcategory filter"
+              >
+                ✕
+              </button>
+            </span>
+          )}
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="inline-flex items-center gap-1 text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-full truncate max-w-[100px] cursor-pointer"
+              title="Clear search filter"
+            >
+              <span className="truncate">&ldquo;{searchQuery}&rdquo;</span>
+              <span>✕</span>
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Collapsible Subcategory Filter Icon Button (only if current department has subcategories) */}
+          {selectedParentCategory !== 'all' && activeSubcategories.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowMobileSubcategories(!showMobileSubcategories)}
+              className={`h-8 px-2.5 rounded-xl border flex items-center gap-1 text-xs font-bold transition-all cursor-pointer shadow-2xs ${
+                showMobileSubcategories || selectedSubcategory !== 'all'
+                  ? 'bg-teal-900 text-white border-teal-900'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-teal-400'
+              }`}
+              title="Filter by subcategory"
+              aria-label="Filter by subcategory"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Filter</span>
+              {selectedSubcategory !== 'all' && (
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 ml-0.5" />
+              )}
+            </button>
+          )}
+
+          {/* Sort Icon Button */}
+          <div className="relative" ref={sortDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsSortOpen(!isSortOpen)}
+              className={`w-8 h-8 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-2xs ${
+                isSortOpen || sortBy !== 'featured'
+                  ? 'bg-teal-900 text-white border-teal-900'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-teal-400'
+              }`}
+              title="Sort products"
+              aria-label="Sort products"
+            >
+              <ArrowUpDown className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Sort Dropdown */}
+            {isSortOpen && (
+              <div className="absolute right-0 top-full mt-1.5 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 z-40 animate-fadeInOverlay">
+                <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
+                  Sort Products
+                </div>
+                {SORT_OPTIONS.map((opt) => {
+                  const isSelected = sortBy === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => {
+                        setSortBy(opt.value);
+                        setIsSortOpen(false);
+                      }}
+                      className={`w-full px-3 py-1.5 text-left text-xs font-bold flex items-center justify-between transition-colors cursor-pointer ${
+                        isSelected
+                          ? 'bg-teal-50 text-teal-900 font-black'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      <span>{opt.label}</span>
+                      {isSelected && <Check className="w-3.5 h-3.5 text-teal-700 shrink-0" />}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 4B. Mobile Collapsed Subcategories Drawer/Pill Track (Only shown when Filter is tapped) */}
+      {selectedParentCategory !== 'all' && activeSubcategories.length > 0 && showMobileSubcategories && (
+        <div className="sm:hidden flex items-center gap-1.5 overflow-x-auto touch-scroll no-scrollbar py-1 animate-fadeInOverlay px-0.5">
+          <button
+            onClick={() => {
+              setSelectedSubcategory('all');
+              setShowMobileSubcategories(false);
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer whitespace-nowrap shadow-2xs ${
+              selectedSubcategory === 'all'
+                ? 'bg-teal-900 text-white'
+                : 'bg-white text-slate-700 border border-slate-200'
+            }`}
+          >
+            All {activeParentCategoryObj?.name || ''}
+          </button>
+          {activeSubcategories.map((sub) => {
+            const isSubActive = selectedSubcategory === sub.id;
+            return (
+              <button
+                key={sub.id}
+                onClick={() => {
+                  setSelectedSubcategory(sub.id);
+                  setShowMobileSubcategories(false);
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer whitespace-nowrap shadow-2xs ${
+                  isSubActive
+                    ? 'bg-teal-900 text-white font-extrabold ring-1 ring-teal-600'
+                    : 'bg-white text-slate-700 border border-slate-200'
+                }`}
+              >
+                <CategoryIcon id={sub.id} name={sub.name} className="w-3.5 h-3.5 shrink-0" />
+                <span>{sub.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 4C. Desktop View: Full Results Count & Sorting Card */}
+      <div className="hidden sm:flex items-center justify-between gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-2xs">
         <div className="text-xs font-semibold text-slate-700 flex items-center gap-2 flex-wrap">
           <span>
             Showing <strong className="text-teal-800 font-bold">{filteredProducts.length}</strong> Products
