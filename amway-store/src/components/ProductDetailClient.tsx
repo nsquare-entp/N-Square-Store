@@ -237,7 +237,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       router.push(navOrigin.path);
       return;
     }
-    if (typeof window !== 'undefined' && window.history.length > 2) {
+    // If arriving directly from WhatsApp/shared link or external referrer, route cleanly to /products
+    if (typeof window !== 'undefined' && document.referrer && document.referrer.includes(window.location.host) && window.history.length > 2) {
       router.back();
     } else {
       router.push('/products');
@@ -639,6 +640,18 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <Link href="/" className="hover:text-teal-700 shrink-0">Home</Link>
             <span className="text-slate-300">/</span>
             <Link href="/products" className="hover:text-teal-700 shrink-0">Products</Link>
+            <span className="text-slate-300">/</span>
+            {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase() && (
+              <>
+                <Link href={`/products?category=${encodeURIComponent(product.parentCategoryId || product.parentCategory)}`} className="text-teal-800 font-semibold hover:underline shrink-0">
+                  {product.parentCategory}
+                </Link>
+                <span className="text-slate-300">/</span>
+              </>
+            )}
+            <span className="text-teal-800 font-bold shrink-0">{displayCategory}</span>
+            <span className="text-slate-300">/</span>
+            <span className="text-slate-600 truncate max-w-[140px] sm:max-w-[220px] font-semibold">{product.name}</span>
           </nav>
         </div>
       </div>
@@ -650,20 +663,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <span>Product link copied to clipboard!</span>
         </div>
       )}
-          <span className="text-slate-300">/</span>
-          {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase() && (
-            <>
-              <Link href={`/products?category=${encodeURIComponent(product.parentCategoryId || product.parentCategory)}`} className="text-teal-800 font-semibold hover:underline shrink-0">
-                {product.parentCategory}
-              </Link>
-              <span className="text-slate-300">/</span>
-            </>
-          )}
-          <span className="text-teal-800 font-bold shrink-0">{displayCategory}</span>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-600 truncate max-w-[140px] sm:max-w-[220px] font-semibold">{product.name}</span>
-        </nav>
-      </div>
 
       {/* 2. MOBILE & TABLET LAYOUT (< lg screens)
           Exact requested order:
