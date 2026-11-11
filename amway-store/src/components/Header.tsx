@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Home, ShoppingBag, Package, MessageSquare, User, ShoppingCart } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 import { useAuthStore } from '../store/useAuthStore';
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const openSidebar = useCartStore((state) => state.openSidebar);
   const totalItems = useCartStore((state) => state.getTotalItems());
   const totalPrice = useCartStore((state) => state.getTotalPrice());
@@ -18,6 +19,14 @@ export default function Header() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleCartClick = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      router.push('/cart');
+    } else {
+      openSidebar();
+    }
+  };
 
   const isLinkActive = (path: string) => {
     if (path === '/') return pathname === '/';
@@ -135,7 +144,7 @@ export default function Header() {
 
           {/* Cart Button */}
           <button
-            onClick={openSidebar}
+            onClick={handleCartClick}
             id="open-cart-drawer-btn"
             className="relative flex items-center gap-2 bg-gradient-to-r from-teal-800 to-emerald-700 hover:from-teal-900 hover:to-emerald-800 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer text-xs sm:text-sm shrink-0"
             aria-label="Open Shopping Cart"

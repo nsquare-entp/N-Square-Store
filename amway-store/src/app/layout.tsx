@@ -6,6 +6,7 @@ import FloatingChat from '../components/FloatingChat';
 import MobileBottomNav from '../components/MobileBottomNav';
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://nsquarestore.com'),
   title: 'N-Square Official | Amway Direct Selling Partner',
   description: 'Official N-Square Official direct selling portal for authentic Amway nutrition, wellness, beauty, and home essentials with direct member discounts.',
   icons: {
@@ -44,12 +45,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-slate-50/50 text-slate-800 antialiased font-sans flex flex-col overflow-x-hidden w-full max-w-full">
+      <body className="min-h-screen bg-slate-50/50 text-slate-800 antialiased font-sans flex flex-col overflow-x-clip w-full max-w-full">
         {/* Global Frosted Glass Header (Suppressed on Admin & Gallery) */}
         <Header />
 
         {/* Main Content View with mobile bottom nav clearance */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-5 sm:space-y-8 mobile-nav-clearance overflow-x-hidden">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-5 sm:space-y-8 mobile-nav-clearance">
           {children}
         </main>
 

@@ -156,6 +156,10 @@ export default function ProductsPageClient({
 
   // Dynamic categories revalidation and sync
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768 && selectedParentCategory === 'all') {
+      setSelectedParentCategory('nutritional');
+    }
+
     fetch('/api/categories', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => {
@@ -425,15 +429,83 @@ export default function ProductsPageClient({
 
       {/* 3. Category & Department Filters */}
       <div id="categories" className="space-y-4">
-        {/* Tier 1: Main Departments Bar with Arrow Marks & Scroll Indicators */}
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 border border-slate-200/90 shadow-2xs relative">
-          <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Mobile View: Icon Bubbles Ribbon with Captions (No "All Categories") */}
+        <div className="md:hidden bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-slate-200/90 shadow-2xs">
+          <div className="flex items-start gap-2.5 overflow-x-auto touch-scroll no-scrollbar py-1 px-0.5">
+            {parentCategories.map((parent) => {
+              const isActive = selectedParentCategory === parent.id;
+              const subs = subcategoriesMap[parent.id] || [];
+              const subIds = new Set(subs.map((s) => s.id));
+              const subNames = new Set(subs.map((s) => s.name.toLowerCase()));
+
+              const count = products.filter(
+                (p) =>
+                  p.parentCategoryId === parent.id ||
+                  (p.parentCategory && p.parentCategory.toLowerCase() === parent.name.toLowerCase()) ||
+                  p.categoryId === parent.id ||
+                  subIds.has(p.categoryId) ||
+                  (p.category && subNames.has(p.category.toLowerCase()))
+              ).length;
+
+              return (
+                <button
+                  key={parent.id}
+                  onClick={() => {
+                    setSelectedParentCategory(parent.id);
+                    setSelectedSubcategory('all');
+                  }}
+                  className="flex flex-col items-center justify-start min-w-[62px] max-w-[70px] shrink-0 cursor-pointer group text-center focus:outline-none"
+                >
+                  {/* Icon Circle/Bubble */}
+                  <div
+                    className={`relative w-13 h-13 rounded-2xl flex items-center justify-center transition-all duration-200 ${
+                      isActive
+                        ? 'bg-teal-900 text-white shadow-md ring-2 ring-teal-600/40 scale-105'
+                        : 'bg-teal-50/70 hover:bg-teal-100 text-teal-800 border border-slate-200/90 shadow-2xs'
+                    }`}
+                  >
+                    <CategoryIcon
+                      id={parent.id}
+                      name={parent.name}
+                      icon={parent.icon}
+                      className="w-6 h-6 shrink-0"
+                    />
+                    {count > 0 && (
+                      <span
+                        className={`absolute -top-1 -right-1 text-[9px] font-black rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center border border-white shadow-2xs ${
+                          isActive ? 'bg-amber-400 text-slate-950' : 'bg-teal-800 text-white'
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Caption underneath */}
+                  <span
+                    className={`text-xs mt-1.5 leading-tight line-clamp-1 w-full truncate transition-colors ${
+                      isActive
+                        ? 'font-black text-teal-950'
+                        : 'font-semibold text-slate-600 group-hover:text-slate-900'
+                    }`}
+                  >
+                    {parent.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Desktop View: Tier 1 Main Departments Bar with Arrow Marks */}
+        <div className="hidden md:block bg-white/90 backdrop-blur-md rounded-2xl p-2.5 border border-slate-200/90 shadow-2xs relative">
+          <div className="flex items-center gap-2">
             {/* Left Scroll Button */}
             <button
               type="button"
               onClick={() => handleScrollDept('left')}
               disabled={!canScrollDeptLeft}
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+              className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all cursor-pointer ${
                 canScrollDeptLeft
                   ? 'bg-slate-100 hover:bg-teal-50 text-teal-800 border border-slate-200 shadow-2xs'
                   : 'text-slate-300 opacity-20 pointer-events-none'
@@ -448,7 +520,7 @@ export default function ProductsPageClient({
             <div
               ref={deptBarRef}
               onScroll={checkDeptScroll}
-              className="flex-1 flex items-center gap-1.5 sm:gap-2 overflow-x-auto touch-scroll no-scrollbar scroll-smooth pb-0.5"
+              className="flex-1 flex items-center gap-2 overflow-x-auto touch-scroll no-scrollbar scroll-smooth pb-0.5"
             >
               {/* All Products Tab */}
               <button
@@ -456,7 +528,7 @@ export default function ProductsPageClient({
                   setSelectedParentCategory('all');
                   setSelectedSubcategory('all');
                 }}
-                className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
                   selectedParentCategory === 'all'
                     ? 'bg-teal-900 text-white shadow-sm ring-2 ring-teal-700/20'
                     : 'bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900'
@@ -497,7 +569,7 @@ export default function ProductsPageClient({
                       setSelectedParentCategory(parent.id);
                       setSelectedSubcategory('all');
                     }}
-                    className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
                       isActive
                         ? 'bg-teal-900 text-white shadow-sm ring-2 ring-teal-700/20'
                         : 'bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900'
@@ -529,7 +601,7 @@ export default function ProductsPageClient({
               type="button"
               onClick={() => handleScrollDept('right')}
               disabled={!canScrollDeptRight}
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+              className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all cursor-pointer ${
                 canScrollDeptRight
                   ? 'bg-teal-50 hover:bg-teal-100 text-teal-900 border border-teal-200 shadow-2xs'
                   : 'text-slate-300 opacity-20 pointer-events-none'
@@ -540,14 +612,6 @@ export default function ProductsPageClient({
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-
-          {/* Mobile Scroll Indicator Pill */}
-          {canScrollDeptRight && (
-            <div className="md:hidden flex items-center justify-end px-2 pt-1 text-[10px] text-teal-800 font-bold gap-1 animate-pulse">
-              <span>Scroll categories</span>
-              <span>➔</span>
-            </div>
-          )}
         </div>
 
         {/* Tier 2: Subcategories Pills (Only rendered when a specific department is selected) */}
@@ -706,7 +770,7 @@ export default function ProductsPageClient({
 
       {/* 5. Modern Product Grid OR Department Coming Soon Card */}
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6">
           {filteredProducts.map((product) => {
             const stockInfo = stockMap[product.sku || product.id];
             const stockStatus = stockInfo?.status || 'IN_STOCK';

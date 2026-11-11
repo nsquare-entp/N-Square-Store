@@ -14,9 +14,19 @@ export interface CartItem {
   variant?: string;
 }
 
+export interface LastAddedItem {
+  name: string;
+  price: number;
+  qty: number;
+  image?: string;
+  timestamp: number;
+}
+
 interface CartStore {
   items: CartItem[];
   isSidebarOpen: boolean;
+  lastAddedItem: LastAddedItem | null;
+  clearLastAddedItem: () => void;
   openSidebar: () => void;
   closeSidebar: () => void;
   toggleSidebar: () => void;
@@ -47,8 +57,17 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items: [],
       isSidebarOpen: false,
+      lastAddedItem: null,
 
-      openSidebar: () => set({ isSidebarOpen: true }),
+      clearLastAddedItem: () => set({ lastAddedItem: null }),
+
+      openSidebar: () => {
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+          // On mobile screens, user is routed directly to /cart billing page
+          return;
+        }
+        set({ isSidebarOpen: true });
+      },
       closeSidebar: () => set({ isSidebarOpen: false }),
       toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
 
@@ -64,6 +83,7 @@ export const useCartStore = create<CartStore>()(
 
         const { qty: _unusedQty, ...cleanProduct } = product;
         const itemToAdd = { ...cleanProduct, id: lineId };
+        const isDesktop = typeof window !== 'undefined' ? window.innerWidth >= 768 : false;
 
         set((state) => {
           const existingItem = state.items.find((item) => item.id === lineId);
@@ -75,8 +95,15 @@ export const useCartStore = create<CartStore>()(
             updatedItems = [...state.items, { ...itemToAdd, qty: quantityToAdd }];
           }
           return {
-            isSidebarOpen: true,
+            isSidebarOpen: isDesktop,
             items: updatedItems,
+            lastAddedItem: {
+              name: product.name,
+              price: product.price,
+              qty: quantityToAdd,
+              image: product.image,
+              timestamp: Date.now(),
+            },
           };
         });
         syncToAuthIfLoggedIn(updatedItems);
@@ -136,6 +163,7 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'nsquare_customer_cart',
       storage: createJSONStorage(() => safeZustandStorage),
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );

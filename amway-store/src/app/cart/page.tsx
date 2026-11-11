@@ -235,7 +235,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="w-full space-y-6 sm:space-y-8 animate-fade-in max-w-7xl mx-auto">
+    <div className="w-full space-y-6 sm:space-y-8 animate-fade-in max-w-7xl mx-auto pb-24 sm:pb-8">
       {/* Navigation header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <Link

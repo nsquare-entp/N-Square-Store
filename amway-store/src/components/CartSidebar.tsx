@@ -32,9 +32,9 @@ export default function CartSidebar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isSidebarOpen, closeSidebar]);
 
-  // Lock background scrolling when orders sidebar is open
+  // Lock background scrolling when orders sidebar is open (Desktop only)
   useEffect(() => {
-    if (isSidebarOpen) {
+    if (isSidebarOpen && typeof window !== 'undefined' && window.innerWidth >= 768) {
       const originalBodyOverflow = document.body.style.overflow;
       const originalHtmlOverflow = document.documentElement.style.overflow;
 
@@ -49,6 +49,7 @@ export default function CartSidebar() {
   }, [isSidebarOpen]);
 
   if (!isSidebarOpen) return null;
+  if (typeof window !== 'undefined' && window.innerWidth < 768) return null;
 
   const handleCheckout = () => {
     if (items.length === 0) return;
@@ -111,7 +112,7 @@ export default function CartSidebar() {
 
   return (
     <div 
-      className="fixed inset-0 z-50 overflow-hidden flex justify-end"
+      className="hidden md:flex fixed inset-0 z-50 overflow-hidden justify-end"
       style={{ touchAction: 'none' }}
     >
       {/* Backdrop with touch and wheel interception */}

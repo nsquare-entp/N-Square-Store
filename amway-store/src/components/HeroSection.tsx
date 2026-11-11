@@ -14,7 +14,7 @@ export default function HeroSection() {
       {/* Main Content */}
       <div className="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center space-y-4 sm:space-y-6">
         {/* Top Tagline Badge */}
-        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-200 text-[10px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-200 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
           <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-teal-400 animate-ping"></span>
           <span>N-Square Store • Amway Direct selling</span>
         </div>
@@ -49,29 +49,29 @@ export default function HeroSection() {
             <div className="w-8 h-8 rounded-full bg-teal-400/20 flex items-center justify-center text-teal-300 mb-1.5">
               <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="font-bold text-white text-[11px] sm:text-xs">100% Genuine</div>
-            <div className="text-[10px] sm:text-[11px] text-teal-200 mt-0.5">Sealed Factory Units</div>
+            <div className="font-bold text-white text-xs sm:text-sm">100% Genuine</div>
+            <div className="text-[11px] sm:text-xs text-teal-200 mt-0.5">Sealed Factory Units</div>
           </div>
           <div className="bg-white/10 backdrop-blur-md p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-white/15 text-center flex flex-col items-center transition-all hover:bg-white/15">
             <div className="w-8 h-8 rounded-full bg-amber-400/20 flex items-center justify-center text-amber-300 mb-1.5">
               <Tag className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="font-bold text-white text-[11px] sm:text-xs">Direct Selling Discount</div>
-            <div className="text-[10px] sm:text-[11px] text-amber-200 mt-0.5">Direct Savings on MRP</div>
+            <div className="font-bold text-white text-xs sm:text-sm">Direct Selling Discount</div>
+            <div className="text-[11px] sm:text-xs text-amber-200 mt-0.5">Direct Savings on MRP</div>
           </div>
           <div className="bg-white/10 backdrop-blur-md p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-white/15 text-center flex flex-col items-center transition-all hover:bg-white/15">
             <div className="w-8 h-8 rounded-full bg-emerald-400/20 flex items-center justify-center text-emerald-300 mb-1.5">
               <Truck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="font-bold text-white text-[11px] sm:text-xs">Pan-India Delivery</div>
-            <div className="text-[10px] sm:text-[11px] text-emerald-200 mt-0.5">Direct Hub Dispatch</div>
+            <div className="font-bold text-white text-xs sm:text-sm">Pan-India Delivery</div>
+            <div className="text-[11px] sm:text-xs text-emerald-200 mt-0.5">Direct Hub Dispatch</div>
           </div>
           <div className="bg-white/10 backdrop-blur-md p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-white/15 text-center flex flex-col items-center transition-all hover:bg-white/15">
             <div className="w-8 h-8 rounded-full bg-teal-400/20 flex items-center justify-center text-teal-300 mb-1.5">
               <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div className="font-bold text-white text-[11px] sm:text-xs">Expert Guidance</div>
-            <div className="text-[10px] sm:text-[11px] text-teal-200 mt-0.5">Direct WhatsApp Support</div>
+            <div className="font-bold text-white text-xs sm:text-sm">Expert Guidance</div>
+            <div className="text-[11px] sm:text-xs text-teal-200 mt-0.5">Direct WhatsApp Support</div>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Check,
   ZoomIn,
+  Share2,
 } from 'lucide-react';
 import { CatalogProduct } from '../services/catalogService';
 import { useCartStore } from '../store/useCartStore';
@@ -229,6 +230,50 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     setTimeout(() => setAddedToast(false), 2500);
   };
 
+  const [shareToast, setShareToast] = useState(false);
+
+  const handleBackNavigation = () => {
+    if (navOrigin?.path) {
+      router.push(navOrigin.path);
+      return;
+    }
+    // If arriving directly from WhatsApp/shared link or external referrer, route cleanly to /products
+    if (typeof window !== 'undefined' && document.referrer && document.referrer.includes(window.location.host) && window.history.length > 2) {
+      router.back();
+    } else {
+      router.push('/products');
+    }
+  };
+
+  const handleShareProduct = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : `https://nsquarestore.com/product/${product.id}`;
+    const shareData = {
+      title: product.name,
+      text: `${product.name} - Direct Selling Price: ₹${currentVariant.price}`,
+      url: url,
+    };
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (err) {
+        // User cancelled share
+      }
+    }
+
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+        setShareToast(true);
+        setTimeout(() => setShareToast(false), 2500);
+      }
+    } catch (e) {
+      const waUrl = `https://wa.me/?text=${encodeURIComponent(`${product.name}\n${url}`)}`;
+      window.open(waUrl, '_blank');
+    }
+  };
+
   const discountPercent = currentVariant.mrp > currentVariant.price
     ? Math.round(((currentVariant.mrp - currentVariant.price) / currentVariant.mrp) * 100)
     : 0;
@@ -237,26 +282,38 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   // Shared Component: Product Title, Badges & USP
   const TitleSection = (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-        <span className="text-xs font-bold text-teal-900 uppercase tracking-wider bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-lg">
-          {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase()
-            ? `${product.parentCategory} • ${displayCategory}`
-            : displayCategory}
-        </span>
-        <span className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-lg">
-          SKU: {currentVariant.sku || product.sku || product.id}
-        </span>
-        <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg">
-          Net Content: {currentVariant.weight || product.weight}
-        </span>
+    <div className="space-y-3.5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <span className="text-xs font-bold text-teal-900 uppercase tracking-wider bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-lg">
+            {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase()
+              ? `${product.parentCategory} • ${displayCategory}`
+              : displayCategory}
+          </span>
+          <span className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-lg">
+            SKU: {currentVariant.sku || product.sku || product.id}
+          </span>
+          <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg">
+            Net Content: {currentVariant.weight || product.weight}
+          </span>
+        </div>
+
+        {/* Quick Share Action */}
+        <button
+          onClick={handleShareProduct}
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-teal-900 bg-white hover:bg-teal-50 px-3 py-1 rounded-xl border border-slate-200 hover:border-teal-300 shadow-2xs transition-colors cursor-pointer shrink-0"
+          title="Share product via WhatsApp / Social"
+        >
+          <Share2 className="w-3.5 h-3.5 text-teal-700" />
+          <span>Share</span>
+        </button>
       </div>
 
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 leading-tight">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 leading-tight">
         {product.name}
       </h1>
 
-      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+      <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
         {product.usp || 'Authentic formulation manufactured to the highest quality standards by Amway.'}
       </p>
     </div>
@@ -557,40 +614,55 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   return (
     <div className="w-full max-w-full overflow-x-hidden space-y-6 sm:space-y-8 animate-fade-in">
-      {/* 1. Fully Responsive Breadcrumb Navigation (Never stretches horizontally) */}
-      <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-slate-200/80 max-w-full overflow-hidden">
+      {/* 1. Fully Responsive Breadcrumb Navigation & Top Actions */}
+      <div className="w-full flex items-center justify-between gap-2.5 pb-2 border-b border-slate-200/80 max-w-full">
         <button
-          onClick={() => {
-            if (navOrigin?.path) {
-              router.push(navOrigin.path);
-            } else {
-              router.back();
-            }
-          }}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-800 hover:text-teal-950 transition-colors bg-white px-3 py-1.5 rounded-xl border border-teal-200 shadow-2xs cursor-pointer w-fit shrink-0"
+          onClick={handleBackNavigation}
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-teal-800 hover:text-teal-950 transition-colors bg-white px-3 py-1.5 sm:py-2 rounded-xl border border-teal-200 shadow-2xs cursor-pointer w-fit shrink-0"
         >
           <ChevronLeft className="w-4 h-4" />
           <span>Back to {navOrigin?.label || 'Products'}</span>
         </button>
 
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-slate-500 font-medium flex-wrap max-w-full overflow-hidden">
-          <Link href="/" className="hover:text-teal-700 shrink-0">Home</Link>
-          <span className="text-slate-300">/</span>
-          <Link href="/products" className="hover:text-teal-700 shrink-0">Products</Link>
-          <span className="text-slate-300">/</span>
-          {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase() && (
-            <>
-              <Link href={`/products?category=${encodeURIComponent(product.parentCategoryId || product.parentCategory)}`} className="text-teal-800 font-semibold hover:underline shrink-0">
-                {product.parentCategory}
-              </Link>
-              <span className="text-slate-300">/</span>
-            </>
-          )}
-          <span className="text-teal-800 font-bold shrink-0">{displayCategory}</span>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-600 truncate max-w-[140px] sm:max-w-[220px] font-semibold">{product.name}</span>
-        </nav>
+        <div className="flex items-center gap-2">
+          {/* Share Button */}
+          <button
+            onClick={handleShareProduct}
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-700 hover:text-teal-900 bg-white hover:bg-teal-50 px-3 py-1.5 sm:py-2 rounded-xl border border-slate-200 hover:border-teal-300 shadow-2xs transition-colors cursor-pointer shrink-0"
+            title="Share this product"
+          >
+            <Share2 className="w-3.5 h-3.5 text-teal-700" />
+            <span className="hidden sm:inline">Share Product</span>
+            <span className="sm:hidden">Share</span>
+          </button>
+
+          <nav aria-label="Breadcrumb" className="hidden lg:flex items-center gap-1.5 text-xs text-slate-500 font-medium shrink-0">
+            <Link href="/" className="hover:text-teal-700 shrink-0">Home</Link>
+            <span className="text-slate-300">/</span>
+            <Link href="/products" className="hover:text-teal-700 shrink-0">Products</Link>
+            <span className="text-slate-300">/</span>
+            {product.parentCategory && product.parentCategory.toLowerCase() !== displayCategory.toLowerCase() && (
+              <>
+                <Link href={`/products?category=${encodeURIComponent(product.parentCategoryId || product.parentCategory)}`} className="text-teal-800 font-semibold hover:underline shrink-0">
+                  {product.parentCategory}
+                </Link>
+                <span className="text-slate-300">/</span>
+              </>
+            )}
+            <span className="text-teal-800 font-bold shrink-0">{displayCategory}</span>
+            <span className="text-slate-300">/</span>
+            <span className="text-slate-600 truncate max-w-[140px] sm:max-w-[220px] font-semibold">{product.name}</span>
+          </nav>
+        </div>
       </div>
+
+      {/* Share Toast Notification */}
+      {shareToast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce">
+          <Check className="w-4 h-4 text-emerald-400" />
+          <span>Product link copied to clipboard!</span>
+        </div>
+      )}
 
       {/* 2. MOBILE & TABLET LAYOUT (< lg screens)
           Exact requested order:
