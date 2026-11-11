@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
-import { supabase } from '../../../utils/supabase';
+import { supabase, isSupabaseConfigured, getSupabaseAdmin } from '../../../utils/supabase';
 import { getDataFilePath, atomicWriteJson } from '../../../utils/dataPath';
 import { verifyAdminRequest } from '../../../utils/adminAuth';
 
@@ -38,23 +38,23 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized: Admin authentication required.' }, { status: 401 });
   }
 
-  try {
-    const { data, error } = await supabase
-      .from('leads')
-      .select('*')
-      .order('created_at', { ascending: false });
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (!error && Array.isArray(data) && data.length > 0) {
-      return NextResponse.json({ leads: data });
+      if (!error && Array.isArray(data) && data.length > 0) {
+        return NextResponse.json({ leads: data });
+      }
+    } catch (err) {
+      // Fallback
     }
-
-    // Fallback to local persistent leads.json
-    const diskLeads = loadDiskLeads();
-    return NextResponse.json({ leads: diskLeads });
-  } catch (err) {
-    const diskLeads = loadDiskLeads();
-    return NextResponse.json({ leads: diskLeads });
   }
+
+  const diskLeads = loadDiskLeads();
+  return NextResponse.json({ leads: diskLeads });
 }
 
 export async function POST(request: Request) {
@@ -62,32 +62,39 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { mobile, name, email, topic, message, cartItems } = body;
     
-    const newLead = {
-      id: Date.now().toString(),
+    const leadRecord = {
       name: name || 'Customer',
+      phone: mobile || 'Direct WhatsApp',
       mobile: mobile || 'Direct WhatsApp',
       email: email || '',
       topic: topic || 'WhatsApp Inquiry',
+      interest: topic || 'WhatsApp Inquiry',
       message: message || '',
       cart_items: cartItems || [],
+      status: 'NEW',
       created_at: new Date().toISOString()
     };
 
-    // Save to persistent file
+    // Save to memory/disk fallback
     const diskLeads = loadDiskLeads();
-    diskLeads.unshift(newLead);
+    const clientLead = { id: `lead_${Date.now()}`, ...leadRecord };
+    diskLeads.unshift(clientLead);
     saveDiskLeads(diskLeads);
 
-    // Also attempt Supabase insert if available
-    try {
-      if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'your_supabase_url_here') {
-        await supabase.from('leads').insert([newLead]);
+    // Write to Supabase
+    if (isSupabaseConfigured) {
+      try {
+        const admin = getSupabaseAdmin();
+        const { data } = await admin.from('leads').insert([leadRecord]).select();
+        if (data && data[0]) {
+          return NextResponse.json({ success: true, lead: data[0] });
+        }
+      } catch (e: any) {
+        console.warn('Leads Supabase insert note:', e?.message || e);
       }
-    } catch (e) {
-      // safe fallback
     }
     
-    return NextResponse.json({ success: true, lead: newLead });
+    return NextResponse.json({ success: true, lead: clientLead });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Failed to save lead' }, { status: 500 });
   }

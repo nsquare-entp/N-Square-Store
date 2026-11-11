@@ -1,38 +1,88 @@
 import fs from 'fs';
 import path from 'path';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
+import { supabase, getSupabaseAdmin, isSupabaseConfigured } from '../utils/supabase';
 
 interface AdminConfig {
   pin: string;
   updatedAt: string;
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var __nsquare_admin_config_cache__: AdminConfig | undefined;
+}
+
+let lastAdminSyncTimestamp = 0;
+const ADMIN_SYNC_TTL_MS = 60 * 1000;
+let isSyncingAdmin = false;
+
 function getAdminConfigPath(): string {
   return getDataFilePath('admin_config.json');
 }
 
+export async function syncAdminConfigFromSupabase(): Promise<AdminConfig | null> {
+  if (!isSupabaseConfigured) return null;
+  try {
+    const { data, error } = await supabase.from('admin_config').select('*').eq('id', 'primary').single();
+    if (error || !data) return null;
+
+    if (data.pin && typeof data.pin === 'string' && /^\d{4}$/.test(data.pin)) {
+      const config: AdminConfig = {
+        pin: data.pin,
+        updatedAt: data.updated_at || new Date().toISOString(),
+      };
+      globalThis.__nsquare_admin_config_cache__ = config;
+      lastAdminSyncTimestamp = Date.now();
+
+      const filePath = getAdminConfigPath();
+      atomicWriteJson(filePath, config);
+      return config;
+    }
+    return null;
+  } catch (err: any) {
+    console.warn('[AdminAuthService] Supabase sync note:', err?.message || err);
+    return null;
+  }
+}
+
 export function getAdminConfig(): AdminConfig {
-  const filePath = getAdminConfigPath();
-  if (fs.existsSync(filePath)) {
-    try {
-      const raw = fs.readFileSync(filePath, 'utf-8');
-      const data = JSON.parse(raw);
-      if (data && typeof data.pin === 'string' && /^\d{4}$/.test(data.pin)) {
-        return data;
+  if (!globalThis.__nsquare_admin_config_cache__) {
+    const filePath = getAdminConfigPath();
+    if (fs.existsSync(filePath)) {
+      try {
+        const raw = fs.readFileSync(filePath, 'utf-8');
+        const data = JSON.parse(raw);
+        if (data && typeof data.pin === 'string' && /^\d{4}$/.test(data.pin)) {
+          globalThis.__nsquare_admin_config_cache__ = data;
+        }
+      } catch (e) {
+        console.error('[AdminAuthService] Error reading admin_config.json:', e);
       }
-    } catch (e) {
-      console.error('[AdminAuthService] Error reading admin_config.json:', e);
+    }
+
+    if (!globalThis.__nsquare_admin_config_cache__) {
+      globalThis.__nsquare_admin_config_cache__ = {
+        pin: '1506',
+        updatedAt: new Date().toISOString(),
+      };
     }
   }
 
-  // Fallback default
-  return {
-    pin: '1234',
-    updatedAt: new Date().toISOString(),
-  };
+  // SWR background refresh from Supabase
+  const now = Date.now();
+  if (isSupabaseConfigured && !isSyncingAdmin && now - lastAdminSyncTimestamp > ADMIN_SYNC_TTL_MS) {
+    isSyncingAdmin = true;
+    syncAdminConfigFromSupabase().finally(() => {
+      isSyncingAdmin = false;
+    });
+  }
+
+  return globalThis.__nsquare_admin_config_cache__;
 }
 
 export function saveAdminConfig(config: AdminConfig): void {
+  globalThis.__nsquare_admin_config_cache__ = config;
   const filePath = getAdminConfigPath();
   try {
     atomicWriteJson(filePath, config);
@@ -40,6 +90,25 @@ export function saveAdminConfig(config: AdminConfig): void {
     if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
       console.error('[AdminAuthService] Error saving admin_config.json:', e);
     }
+  }
+
+  // Asynchronously sync to Supabase
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        await admin.from('admin_config').upsert(
+          {
+            id: 'primary',
+            pin: config.pin,
+            updated_at: config.updatedAt,
+          },
+          { onConflict: 'id' }
+        );
+      } catch (e: any) {
+        console.warn('[AdminAuthService] Supabase sync note:', e?.message || e);
+      }
+    })();
   }
 }
 
@@ -95,4 +164,3 @@ export function updateAdminPin(currentPin: string, newPin: string): { success: b
 
   return { success: true };
 }
-

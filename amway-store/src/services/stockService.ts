@@ -95,6 +95,28 @@ export async function fetchLiveStockFromAmway(sku: string): Promise<StockInfo> {
     }
 
     const html = await res.text();
+
+    // Check for Amway India's client-rendered Soft-404 / Discontinued page
+    const isSoft404 =
+      html.includes('Oops! Something is not right') ||
+      html.includes('is no longer available') ||
+      html.includes('The webpage or product you') ||
+      html.includes('Page Not Found');
+
+    if (isSoft404) {
+      const discontinuedInfo: StockInfo = {
+        sku,
+        inStock: false,
+        stockLevel: 0,
+        status: 'OUT_OF_STOCK',
+        label: 'Discontinued / Unavailable',
+        lastUpdated: new Date().toISOString(),
+      };
+      memoryCache.items[sku] = discontinuedInfo;
+      saveCache();
+      return discontinuedInfo;
+    }
+
     const escapedSku = sku.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const skuBlockRegex = new RegExp(`"stock":\\{([^}]+)\\}[^}]*"url":"[^"]*${escapedSku}`, 'i');
     const m = html.match(skuBlockRegex);
@@ -115,7 +137,19 @@ export async function fetchLiveStockFromAmway(sku: string): Promise<StockInfo> {
       }
     }
 
-    const isAvailable = stockStatus.toLowerCase().includes('instock');
+    // Direct check for Amway India's "Sold Out" badge / "NOTIFY ME" button / outOfStock signals
+    const isExplicitlyOutOfStock =
+      html.includes('"stockLevelStatus":"outOfStock"') ||
+      html.includes('Sold Out') ||
+      html.includes('NOTIFY ME') ||
+      html.toLowerCase().includes('schema.org/outofstock');
+
+    if (isExplicitlyOutOfStock) {
+      stockStatus = 'outOfStock';
+      stockLevel = 0;
+    }
+
+    const isAvailable = stockStatus.toLowerCase().includes('instock') && !isExplicitlyOutOfStock;
     let status: 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK' = isAvailable ? 'IN_STOCK' : 'OUT_OF_STOCK';
     let label = isAvailable ? 'In Stock' : 'Temporarily Out of Stock';
 

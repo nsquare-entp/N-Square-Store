@@ -7,6 +7,8 @@ node_modules/
 */.next/
 out/
 */out/
+build/
+*/build/
 
 # Environment and sensitive files
 .env*
@@ -15,13 +17,30 @@ Pass.txt
 *.pem
 *.key
 
-# Temporary files & profiles
+# Temporary files & logs
 chrome_temp_profile/
 *.tmp
 *.log
 npm-debug.log*
+yarn-debug.log*
+
+# Database & Runtime Data Caches (Managed live by Supabase)
+data/
+*/data/
+amway-store/data/
+amway-store/public/data/
+
+# Raw Scraping, PDFs, Test Scripts & Extra Assets
+*.pdf
+*.csv
+*.py
+Business Suff/
+Product PDFs/
+product_images/
+screenshot.png
+Notes.txt
+index.html
 
 # OS Files
 .DS_Store
 Thumbs.db
-

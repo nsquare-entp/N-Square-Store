@@ -4,19 +4,97 @@ import { UserAccount } from '../types/user';
 import { CartItem } from '../store/useCartStore';
 import { getDataFilePath, atomicWriteJson } from '../utils/dataPath';
 import { deleteAccountRequestsByUserId } from './accountRequestService';
+import { supabase, getSupabaseAdmin, isSupabaseConfigured } from '../utils/supabase';
 
 declare global {
+  // eslint-disable-next-line no-var
   var __nsquare_users_cache__: UserAccount[] | undefined;
 }
+
+let lastUsersSyncTimestamp = 0;
+const USERS_SYNC_TTL_MS = 30 * 1000; // 30 seconds SWR window
+let isSyncingUsers = false;
 
 function getUsersFilePath(): string {
   return getDataFilePath('users.json');
 }
 
+function mapUserToRow(u: UserAccount) {
+  return {
+    id: u.id,
+    mobile: u.mobile,
+    email: u.email || null,
+    name: u.name,
+    password: u.password,
+    address: u.address || {},
+    inquiry_id: u.inquiryId || null,
+    cart: u.cart || [],
+    status: u.status || 'ACTIVE',
+    notes: u.notes || null,
+    created_at: u.createdAt || new Date().toISOString(),
+    updated_at: u.updatedAt || new Date().toISOString(),
+    last_login_at: u.lastLoginAt || null,
+  };
+}
+
+function mapRowToUser(row: any): UserAccount {
+  return {
+    id: row.id,
+    mobile: row.mobile,
+    email: row.email || '',
+    name: row.name,
+    password: row.password,
+    address: row.address && typeof row.address === 'object' ? row.address : {},
+    inquiryId: row.inquiry_id || undefined,
+    cart: Array.isArray(row.cart) ? row.cart : [],
+    status: (row.status as 'ACTIVE' | 'SUSPENDED') || 'ACTIVE',
+    notes: row.notes || '',
+    createdAt: row.created_at || new Date().toISOString(),
+    updatedAt: row.updated_at || new Date().toISOString(),
+    lastLoginAt: row.last_login_at || undefined,
+  };
+}
+
+/**
+ * Sync users from Supabase in background (SWR pattern)
+ */
+export async function syncUsersFromSupabase(): Promise<UserAccount[]> {
+  if (!isSupabaseConfigured) return getAllUsers();
+  try {
+    const { data, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+    if (error || !data || data.length === 0) {
+      return getAllUsers();
+    }
+    const mapped = data.map(mapRowToUser);
+    globalThis.__nsquare_users_cache__ = mapped;
+    lastUsersSyncTimestamp = Date.now();
+
+    const filePath = getUsersFilePath();
+    atomicWriteJson(filePath, mapped);
+    return mapped;
+  } catch (err: any) {
+    console.warn('[UserService] Supabase sync note:', err?.message || err);
+    return getAllUsers();
+  }
+}
+
+/**
+ * Returns all registered users with zero latency.
+ * Serves from memory/disk first, revalidates in the background.
+ */
 export function getAllUsers(forceReload: boolean = false): UserAccount[] {
   if (!forceReload && globalThis.__nsquare_users_cache__) {
+    // SWR trigger
+    const now = Date.now();
+    if (isSupabaseConfigured && !isSyncingUsers && now - lastUsersSyncTimestamp > USERS_SYNC_TTL_MS) {
+      isSyncingUsers = true;
+      syncUsersFromSupabase().finally(() => {
+        isSyncingUsers = false;
+      });
+    }
     return globalThis.__nsquare_users_cache__;
   }
+
   const filePath = getUsersFilePath();
   if (fs.existsSync(filePath)) {
     try {
@@ -24,13 +102,25 @@ export function getAllUsers(forceReload: boolean = false): UserAccount[] {
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
         globalThis.__nsquare_users_cache__ = parsed;
-        return globalThis.__nsquare_users_cache__;
       }
     } catch (e) {
       console.error('[UserService] Error reading users.json:', e);
     }
   }
-  globalThis.__nsquare_users_cache__ = [];
+
+  if (!globalThis.__nsquare_users_cache__) {
+    globalThis.__nsquare_users_cache__ = [];
+  }
+
+  // Trigger SWR sync
+  const now = Date.now();
+  if (isSupabaseConfigured && !isSyncingUsers && now - lastUsersSyncTimestamp > USERS_SYNC_TTL_MS) {
+    isSyncingUsers = true;
+    syncUsersFromSupabase().finally(() => {
+      isSyncingUsers = false;
+    });
+  }
+
   return globalThis.__nsquare_users_cache__;
 }
 
@@ -43,6 +133,18 @@ export function saveAllUsers(users: UserAccount[]): void {
     if (e?.code !== 'EROFS' && e?.code !== 'EACCES') {
       console.error('[UserService] Error saving users.json:', e);
     }
+  }
+
+  if (isSupabaseConfigured && users.length > 0) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        const rows = users.map(mapUserToRow);
+        await admin.from('users').upsert(rows, { onConflict: 'id' });
+      } catch (e: any) {
+        console.warn('[UserService] Supabase sync error on saveAllUsers:', e?.message || e);
+      }
+    })();
   }
 }
 
@@ -108,6 +210,19 @@ export function createUser(data: {
 
   users.unshift(newUser);
   saveAllUsers(users);
+
+  // Write-through to Supabase
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        await admin.from('users').upsert(mapUserToRow(newUser), { onConflict: 'id' });
+      } catch (e: any) {
+        console.warn('[UserService] Supabase sync error on createUser:', e?.message || e);
+      }
+    })();
+  }
+
   return newUser;
 }
 
@@ -127,6 +242,19 @@ export function updateUser(id: string, updates: Partial<UserAccount>): UserAccou
 
   users[idx] = updated;
   saveAllUsers(users);
+
+  // Write-through to Supabase
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        await admin.from('users').upsert(mapUserToRow(updated), { onConflict: 'id' });
+      } catch (e: any) {
+        console.warn('[UserService] Supabase sync error on updateUser:', e?.message || e);
+      }
+    })();
+  }
+
   return updated;
 }
 
@@ -141,6 +269,19 @@ export function deleteUser(id: string): boolean {
     try {
       deleteAccountRequestsByUserId(cleanId);
     } catch {}
+
+    // Delete in Supabase
+    if (isSupabaseConfigured) {
+      (async () => {
+        try {
+          const admin = getSupabaseAdmin();
+          await admin.from('users').delete().eq('id', cleanId);
+        } catch (e: any) {
+          console.warn('[UserService] Supabase sync error on deleteUser:', e?.message || e);
+        }
+      })();
+    }
+
     return true;
   }
   return false;

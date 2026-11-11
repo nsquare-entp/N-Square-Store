@@ -1,3 +1,0 @@
-- Main tab in mobile to icons and captions. 
-- Mobile Cart adding fix and cart page fix. 
-- Font size adjustments in mobile. 

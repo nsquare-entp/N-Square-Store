@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { initStockScheduler } from './stockService';
 import { getDataDir, atomicWriteJson } from '../utils/dataPath';
+import { supabase, getSupabaseAdmin, isSupabaseConfigured } from '../utils/supabase';
 
 export interface MedicalStandardRow {
   ingredient: string;
@@ -209,18 +210,18 @@ const KNOWN_VARIANT_MAP: Record<string, ProductVariant[]> = {
     {
       sku: '329878ID',
       weight: '200 g',
-      price: 990,
+      price: 1017.46,
       mrp: 1175,
-      savings: 185,
-      discountPercent: 16,
+      savings: 157.54,
+      discountPercent: 13,
     },
     {
       sku: '329867ID',
       weight: '500 g',
-      price: 2034,
+      price: 2132.56,
       mrp: 2460,
-      savings: 426,
-      discountPercent: 17,
+      savings: 327.44,
+      discountPercent: 13,
     },
     {
       sku: '329861ID',
@@ -236,18 +237,18 @@ const KNOWN_VARIANT_MAP: Record<string, ProductVariant[]> = {
     {
       sku: '329863ID',
       weight: '30 Tablets',
-      price: 689,
-      mrp: 789,
-      savings: 100,
-      discountPercent: 13,
+      price: 762.30,
+      mrp: 815,
+      savings: 52.70,
+      discountPercent: 6,
     },
     {
       sku: '329862ID',
       weight: '120 Tablets',
-      price: 2349,
+      price: 2511.60,
       mrp: 2690,
-      savings: 341,
-      discountPercent: 13,
+      savings: 178.40,
+      discountPercent: 7,
     },
   ],
   // NUTRILITE® Daily
@@ -255,17 +256,17 @@ const KNOWN_VARIANT_MAP: Record<string, ProductVariant[]> = {
     {
       sku: '313505ID',
       weight: '60 Tablets',
-      price: 1147,
+      price: 1204.36,
       mrp: 1289,
-      savings: 142,
-      discountPercent: 11,
+      savings: 84.64,
+      discountPercent: 7,
     },
     {
       sku: '313504ID',
       weight: '120 Tablets',
-      price: 2048,
+      price: 2048.56,
       mrp: 2193,
-      savings: 145,
+      savings: 144.44,
       discountPercent: 7,
     },
   ],
@@ -277,9 +278,41 @@ function loadAllFromDisk(): CatalogProduct[] {
 
   const activeDataDir = getDataDir();
 
+  // Tier 2: Check unified local cache first for sub-millisecond instant load
+  const unifiedCachePath = path.join(activeDataDir, 'supabase_catalog_cache.json');
+  if (fs.existsSync(unifiedCachePath)) {
+    try {
+      const unifiedData = JSON.parse(fs.readFileSync(unifiedCachePath, 'utf-8'));
+      if (Array.isArray(unifiedData) && unifiedData.length > 0) {
+        const catMap = new Map<string, { name: string; desc: string; count: number }>();
+        for (const p of unifiedData) {
+          const cId = p.categoryId || 'category1';
+          const existing = catMap.get(cId) || {
+            name: p.category || 'Supplements',
+            desc: p.categoryDescription || '',
+            count: 0,
+          };
+          existing.count++;
+          catMap.set(cId, existing);
+        }
+        for (const [cId, val] of catMap.entries()) {
+          summaries.push({
+            id: cId,
+            name: val.name,
+            description: val.desc,
+            productCount: val.count,
+          });
+        }
+        loadedProducts.push(...unifiedData);
+      }
+    } catch (e) {
+      console.warn('[CatalogService] Notice reading unified cache:', e);
+    }
+  }
+
   let officialAmwayData: Record<string, OfficialProductDetails> = {};
   const officialDetailsPath = path.join(activeDataDir, 'official_amway_details.json');
-  if (fs.existsSync(officialDetailsPath)) {
+  if (loadedProducts.length === 0 && fs.existsSync(officialDetailsPath)) {
     try {
       officialAmwayData = JSON.parse(fs.readFileSync(officialDetailsPath, 'utf-8'));
     } catch (e) {
@@ -287,7 +320,7 @@ function loadAllFromDisk(): CatalogProduct[] {
     }
   }
 
-  for (const filename of CATEGORY_FILES) {
+  if (loadedProducts.length === 0) for (const filename of CATEGORY_FILES) {
     const fullPath = path.join(activeDataDir, filename);
     if (!fs.existsSync(fullPath)) continue;
 
@@ -437,11 +470,95 @@ function getActiveDataDir(): string {
   return getDataDir();
 }
 
+let lastSupabaseFetchTimestamp = 0;
+const SUPABASE_CACHE_TTL_MS = 60 * 1000; // 60 seconds SWR background revalidation
+let isFetchingFromSupabase = false;
+
+export async function syncCatalogFromSupabase(): Promise<CatalogProduct[] | null> {
+  if (!isSupabaseConfigured) return null;
+  try {
+    const { data: dbProducts, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('name');
+
+    if (error || !dbProducts || dbProducts.length === 0) {
+      return null;
+    }
+
+    const { data: dbCategories } = await supabase
+      .from('categories')
+      .select('*')
+      .order('sort_order');
+
+    if (dbCategories && dbCategories.length > 0) {
+      categorySummaries = dbCategories.map((c: any) => ({
+        id: c.id,
+        name: c.name,
+        description: c.description || '',
+        productCount: c.product_count || 0,
+      }));
+      globalThis.__nsquare_category_summaries__ = categorySummaries;
+    }
+
+    const mapped: CatalogProduct[] = dbProducts.map((row: any) => ({
+      id: row.id,
+      sku: row.sku,
+      name: row.name,
+      category: row.category,
+      categoryId: row.category_id || 'category1',
+      categoryDescription: row.category_description || '',
+      parentCategory: row.parent_category || 'Nutritional',
+      parentCategoryId: row.parent_category_id || 'nutritional',
+      weight: row.weight,
+      pack_sizes: Array.isArray(row.pack_sizes) ? row.pack_sizes : [row.weight],
+      variants: Array.isArray(row.variants) ? row.variants : [],
+      price: Number(row.price),
+      mrp: Number(row.mrp),
+      savings: Number(row.savings) || Math.max(0, Number(row.mrp) - Number(row.price)),
+      priceString: row.price_string || `MRP: ₹${row.mrp} | Direct Selling Price: ₹${row.price}`,
+      image: row.image,
+      images: Array.isArray(row.images) ? row.images : [row.image],
+      usp: row.usp || '',
+      clinical_nutrition_rationale: row.clinical_nutrition_rationale || undefined,
+      medical_standards_validation: row.medical_standards_validation || undefined,
+      who_may_use: Array.isArray(row.who_may_use) ? row.who_may_use : [],
+      who_should_not_use: Array.isArray(row.who_should_not_use) ? row.who_should_not_use : [],
+      totalIngredientsCount: row.total_ingredients_count || 0,
+      complianceRating: row.compliance_rating || 'Good',
+      officialDetails: row.official_details || undefined,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    }));
+
+    globalThis.__nsquare_catalog_cache__ = mapped;
+    lastSupabaseFetchTimestamp = Date.now();
+
+    const activeDir = getActiveDataDir();
+    const cachePath = path.join(activeDir, 'supabase_catalog_cache.json');
+    atomicWriteJson(cachePath, mapped);
+
+    return mapped;
+  } catch (err: any) {
+    console.warn('[CatalogService] Supabase sync notice:', err?.message || err);
+    return null;
+  }
+}
+
 export function reloadCatalogFromDisk(): CatalogProduct[] {
   const loaded = loadAllFromDisk();
   globalThis.__nsquare_catalog_cache__ = loaded;
   globalThis.__nsquare_category_summaries__ = categorySummaries;
   return loaded;
+}
+
+export async function revalidateCatalog(): Promise<CatalogProduct[]> {
+  if (isSupabaseConfigured) {
+    const fromSb = await syncCatalogFromSupabase();
+    if (fromSb) return fromSb;
+  }
+  return reloadCatalogFromDisk();
 }
 
 export function getCatalog(): CatalogProduct[] {
@@ -456,6 +573,16 @@ export function getCatalog(): CatalogProduct[] {
       // background scheduler notice
     }
   }
+
+  // Tier 3: Non-blocking background revalidation with Supabase (SWR)
+  const now = Date.now();
+  if (isSupabaseConfigured && !isFetchingFromSupabase && (now - lastSupabaseFetchTimestamp > SUPABASE_CACHE_TTL_MS)) {
+    isFetchingFromSupabase = true;
+    syncCatalogFromSupabase().finally(() => {
+      isFetchingFromSupabase = false;
+    });
+  }
+
   return globalThis.__nsquare_catalog_cache__;
 }
 
@@ -665,6 +792,49 @@ export function upsertProduct(productInput: Partial<CatalogProduct> & { name: st
     }
   } catch (e) {}
 
+  // 5. Asynchronously persist to Supabase
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        const { error } = await admin.from('products').upsert(
+          {
+            id: fullProduct.id,
+            sku: fullProduct.sku,
+            name: fullProduct.name,
+            category: fullProduct.category,
+            category_id: fullProduct.categoryId,
+            category_description: fullProduct.categoryDescription,
+            parent_category: fullProduct.parentCategory,
+            parent_category_id: fullProduct.parentCategoryId,
+            weight: fullProduct.weight,
+            pack_sizes: fullProduct.pack_sizes,
+            variants: fullProduct.variants,
+            price: fullProduct.price,
+            mrp: fullProduct.mrp,
+            price_string: fullProduct.priceString,
+            image: fullProduct.image,
+            images: fullProduct.images,
+            usp: fullProduct.usp,
+            clinical_nutrition_rationale: fullProduct.clinical_nutrition_rationale,
+            medical_standards_validation: fullProduct.medical_standards_validation,
+            who_may_use: fullProduct.who_may_use,
+            who_should_not_use: fullProduct.who_should_not_use,
+            total_ingredients_count: fullProduct.totalIngredientsCount,
+            compliance_rating: fullProduct.complianceRating,
+            official_details: fullProduct.officialDetails,
+            is_active: true,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'id' }
+        );
+        if (error) console.warn('[CatalogService] Supabase upsert note:', error.message);
+      } catch (e: any) {
+        console.warn('[CatalogService] Supabase upsert note:', e?.message || e);
+      }
+    })();
+  }
+
   return fullProduct;
 }
 
@@ -699,6 +869,19 @@ export function deleteProduct(idOrSku: string): boolean {
       atomicWriteJson(deletedPath, deletedList);
     }
   } catch (e) {}
+
+  // 3. Asynchronously mark inactive in Supabase
+  if (isSupabaseConfigured) {
+    (async () => {
+      try {
+        const admin = getSupabaseAdmin();
+        const { error } = await admin.from('products').update({ is_active: false }).eq('id', idOrSku);
+        if (error) console.warn('[CatalogService] Supabase delete note:', error.message);
+      } catch (e: any) {
+        console.warn('[CatalogService] Supabase delete note:', e?.message || e);
+      }
+    })();
+  }
 
   return filtered.length < initialLength;
 }

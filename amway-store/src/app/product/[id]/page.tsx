@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getProductById } from '../../../services/catalogService';
+import { getProductById, syncCatalogFromSupabase } from '../../../services/catalogService';
+import { isSupabaseConfigured } from '../../../utils/supabase';
 import ProductDetailClient from '../../../components/ProductDetailClient';
 
 interface ProductPageProps {
@@ -13,7 +14,12 @@ export const revalidate = 0;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const product = getProductById(id);
+  let product = getProductById(id);
+
+  if (!product && isSupabaseConfigured) {
+    await syncCatalogFromSupabase();
+    product = getProductById(id);
+  }
 
   if (!product) {
     return (

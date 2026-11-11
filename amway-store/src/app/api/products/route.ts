@@ -1,11 +1,19 @@
 import { NextResponse } from 'next/server';
-import { getCatalog, getProductById, searchProducts, upsertProduct, deleteProduct, reloadCatalogFromDisk } from '../../../services/catalogService';
+import { getCatalog, getProductById, searchProducts, upsertProduct, deleteProduct, reloadCatalogFromDisk, syncCatalogFromSupabase } from '../../../services/catalogService';
 import { verifyAdminRequest } from '../../../utils/adminAuth';
+import { isSupabaseConfigured } from '../../../utils/supabase';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
+    // If cache is empty on cold start, initialize from Supabase immediately
+    let allProducts = getCatalog();
+    if ((!allProducts || allProducts.length === 0) && isSupabaseConfigured) {
+      const synced = await syncCatalogFromSupabase();
+      if (synced && synced.length > 0) allProducts = synced;
+    }
+
     const { searchParams } = new URL(request.url);
     const reload = searchParams.get('reload') === 'true';
 
@@ -40,11 +48,25 @@ export async function GET(request: Request) {
         maxPrice,
         limit,
       });
-      return NextResponse.json({ products: filtered, count: filtered.length });
+      return NextResponse.json(
+        { products: filtered, count: filtered.length },
+        {
+          headers: {
+            'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+          },
+        }
+      );
     }
 
     const all = getCatalog();
-    return NextResponse.json({ products: all, count: all.length });
+    return NextResponse.json(
+      { products: all, count: all.length },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      }
+    );
   } catch (err: any) {
     console.error('API /api/products error:', err);
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });

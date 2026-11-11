@@ -364,6 +364,28 @@ export default function AdminPage() {
     }
   };
 
+  const [isSyncingSupabase, setIsSyncingSupabase] = useState(false);
+  const handleSyncSupabase = async () => {
+    setIsSyncingSupabase(true);
+    try {
+      showToast('Syncing all data with Supabase...');
+      const res = await adminFetch('/api/products/revalidate', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`Supabase sync complete (${data.count} products, ${data.usersCount || 0} users, ${data.ordersCount || 0} orders live)`);
+        loadProducts();
+        loadUsers();
+        loadOrders();
+      } else {
+        alert(data.error || 'Failed to sync with Supabase');
+      }
+    } catch (err: any) {
+      alert('Error syncing with Supabase: ' + err.message);
+    } finally {
+      setIsSyncingSupabase(false);
+    }
+  };
+
   // Load global categories from API
   const loadCategories = async () => {
     setLoadingCategories(true);
@@ -1768,6 +1790,15 @@ export default function AdminPage() {
             <span>Lock</span>
           </button>
           <button
+            onClick={handleSyncSupabase}
+            disabled={isSyncingSupabase}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl shadow-2xs transition-all cursor-pointer disabled:opacity-50"
+            title="Sync in-memory catalog with live Supabase database"
+          >
+            <span className={isSyncingSupabase ? 'animate-spin' : ''}>🔄</span>
+            <span>{isSyncingSupabase ? 'Syncing...' : 'Sync Supabase'}</span>
+          </button>
+          <button
             onClick={handleAddProductClick}
             className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 rounded-xl shadow-xs transition-all cursor-pointer"
           >
@@ -2365,7 +2396,7 @@ export default function AdminPage() {
                 onClick={() =>
                   setEditingCategory({
                     name: '',
-                    icon: '🏷️',
+                    icon: 'Tag',
                     description: '',
                     order: parentCategories.length + 1,
                     parentId: null,
@@ -2379,7 +2410,7 @@ export default function AdminPage() {
                 onClick={() =>
                   setEditingCategory({
                     name: '',
-                    icon: '🏷️',
+                    icon: 'Tag',
                     description: '',
                     order: (subcategoriesMap['nutritional']?.length || 0) + 1,
                     parentId: 'nutritional',
@@ -2440,7 +2471,7 @@ export default function AdminPage() {
                         onClick={() =>
                           setEditingCategory({
                             name: '',
-                            icon: '🏷️',
+                            icon: 'Tag',
                             description: '',
                             order: subs.length + 1,
                             parentId: parent.id,
@@ -2482,7 +2513,7 @@ export default function AdminPage() {
                             onClick={() =>
                               setEditingCategory({
                                 name: '',
-                                icon: '🏷️',
+                                icon: 'Tag',
                                 description: '',
                                 order: 1,
                                 parentId: parent.id,
@@ -4485,12 +4516,12 @@ export default function AdminPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Icon / Emoji</label>
+                  <label className="text-xs font-bold text-slate-700">Icon Identifier</label>
                   <input
                     type="text"
                     value={editingCategory.icon || ''}
                     onChange={(e) => setEditingCategory({ ...editingCategory, icon: e.target.value })}
-                    placeholder="e.g. 🌿"
+                    placeholder="e.g. HeartPulse, Leaf, Sparkles, Scale"
                     className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-teal-600"
                   />
                 </div>

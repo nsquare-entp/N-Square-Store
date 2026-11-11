@@ -338,6 +338,21 @@ export async function fetchAmwayPdp(sku: string): Promise<{
   try {
     const html = await fetchHttpsText(url, 12000);
 
+    // Detect Amway Soft-404 / Discontinued page
+    if (
+      html.includes('Oops! Something is not right') ||
+      html.includes('is no longer available') ||
+      html.includes('The webpage or product you') ||
+      html.includes('Page Not Found')
+    ) {
+      return {
+        sku,
+        stockStatus: 'outOfStock',
+        stockLevel: 0,
+        success: false,
+      };
+    }
+
     let name: string | undefined;
     let price: number | undefined;
     let retailPrice: number | undefined;
@@ -378,6 +393,19 @@ export async function fetchAmwayPdp(sku: string): Promise<{
       const availMatch = html.match(/property="og:availability"\s+content="([^"]+)"/i);
       if (availMatch) stockStatus = availMatch[1];
     }
+
+    // Direct check for Amway India's "Sold Out" badge / "NOTIFY ME" button / outOfStock signals
+    const isExplicitlyOutOfStock =
+      html.includes('"stockLevelStatus":"outOfStock"') ||
+      html.includes('Sold Out') ||
+      html.includes('NOTIFY ME') ||
+      html.toLowerCase().includes('schema.org/outofstock');
+
+    if (isExplicitlyOutOfStock) {
+      stockStatus = 'outOfStock';
+      stockLevel = 0;
+    }
+
     if (!image) {
       const ogImgMatch = html.match(/property="og:image"\s+content="([^"]+)"/i);
       if (ogImgMatch) image = ogImgMatch[1];
